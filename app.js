@@ -1,1221 +1,728 @@
 /**
- * KPOINTCRYPTOGLANCE // 5-CRYPTO LIVE TRADINGVIEW TERMINAL
- * - Dedicated Sections for the 5 Cryptocurrencies: BTC, ETH, SOL, HYPE, XRP
- * - Direct Live Prices from TradingView (`scanner.tradingview.com/crypto/scan`) + Official TradingView Widgets
- * - Pitch-Black Interface with a Synchronized 3.0-Second Glowing LED Outline
- * - Live Crypto News Sidebar (Updating Directly from CryptoCompare, CoinDesk, CoinTelegraph & Decrypt Feeds)
- * - Top 5 Highest Rising Cryptocurrencies of the Week (7D), Month (30D), and Year (1Y)
+ * KPOINT HEDGE // FREE BET & QUALIFYING BET 70%+ PERFECT HEDGE ENGINE
+ * Supports:
+ * 1. Exchange Back vs. Lay Hedging (Betfair / Smarkets / Matchbook)
+ * 2. 2-Bookmaker Opposite Outcome Hedging (Bookmaker A vs. Bookmaker B)
+ * 3. Live Qualifying Bet (~20p Loss) + Free Bet SNR (~70%-80% Guaranteed Profit)
+ * 4. Smart Odds Advisor, Live Sensitivity Matrix, Presets & Odds Format Converter
  */
 
 (function () {
-  "use strict";
+  'use strict';
 
-  // =========================================================================
-  // 1. THE 5 CORE CRYPTOCURRENCIES (BTC, ETH, SOL, HYPE, XRP)
-  // =========================================================================
-
-  const FIVE_CRYPTOS = [
-    {
-      rank: 1,
-      symbol: "BTC",
-      name: "Bitcoin",
-      pairLabel: "BTC / USDT",
-      tvSymbol: "BINANCE:BTCUSDT",
-      tvFallbacks: ["BINANCE:BTCUSDT", "BITSTAMP:BTCUSD", "COINBASE:BTCUSD"],
-      accentColor: "#f7931a",
-      decimals: 2,
-      price: 89420.50,
-      change24h: 2.84,
-      high24h: 90150.00,
-      low24h: 86890.00,
-      perfWeek: 8.42,
-      perfMonth: 19.65,
-      perfYear: 114.80,
-      volume24h: "$42.8B",
-      marketCap: "$1.77T",
-      liveNewsHeadline: "Spot Bitcoin ETFs record $890M daily net institutional inflows as sovereign wealth accumulation accelerates.",
-      liveNewsSource: "CoinDesk Institutional Wire"
-    },
-    {
-      rank: 2,
-      symbol: "ETH",
-      name: "Ethereum",
-      pairLabel: "ETH / USDT",
-      tvSymbol: "BINANCE:ETHUSDT",
-      tvFallbacks: ["BINANCE:ETHUSDT", "BITSTAMP:ETHUSD", "COINBASE:ETHUSD"],
-      accentColor: "#627eea",
-      decimals: 2,
-      price: 3185.40,
-      change24h: 3.62,
-      high24h: 3240.00,
-      low24h: 3065.20,
-      perfWeek: 11.20,
-      perfMonth: 24.15,
-      perfYear: 68.40,
-      volume24h: "$21.4B",
-      marketCap: "$383.5B",
-      liveNewsHeadline: "Ethereum Pectra & L2 blob scaling hits record 420 TPS across Base, Arbitrum, and Optimism rollups.",
-      liveNewsSource: "CoinTelegraph Ethereum Desk"
-    },
-    {
-      rank: 3,
-      symbol: "SOL",
-      name: "Solana",
-      pairLabel: "SOL / USDT",
-      tvSymbol: "BINANCE:SOLUSDT",
-      tvFallbacks: ["BINANCE:SOLUSDT", "COINBASE:SOLUSD", "BYBIT:SOLUSDT"],
-      accentColor: "#14f195",
-      decimals: 2,
-      price: 214.85,
-      change24h: 5.48,
-      high24h: 219.50,
-      low24h: 202.10,
-      perfWeek: 16.90,
-      perfMonth: 38.40,
-      perfYear: 245.60,
-      volume24h: "$9.8B",
-      marketCap: "$102.4B",
-      liveNewsHeadline: "Solana DEX volume surpasses $115B monthly pace as Firedancer validator client boosts institutional throughput.",
-      liveNewsSource: "Decrypt Solana Report"
-    },
-    {
-      rank: 4,
-      symbol: "HYPE",
-      name: "Hyperliquid",
-      pairLabel: "HYPE / USDT",
-      tvSymbol: "BYBIT:HYPEUSDT",
-      tvFallbacks: ["BYBIT:HYPEUSDT", "OKX:HYPEUSDT", "GATEIO:HYPEUSDT", "KUCOIN:HYPEUSDT"],
-      accentColor: "#00f3ff",
-      decimals: 3,
-      price: 28.645,
-      change24h: 9.15,
-      high24h: 29.850,
-      low24h: 26.120,
-      perfWeek: 34.80,
-      perfMonth: 86.50,
-      perfYear: 642.00,
-      volume24h: "$1.95B",
-      marketCap: "$9.56B",
-      liveNewsHeadline: "Hyperliquid L1 perp DEX open interest and Assistance Fund HYPE token buybacks reach all-time record highs.",
-      liveNewsSource: "CryptoCompare DeFi Wire"
-    },
-    {
-      rank: 5,
-      symbol: "XRP",
-      name: "Ripple",
-      pairLabel: "XRP / USDT",
-      tvSymbol: "BINANCE:XRPUSDT",
-      tvFallbacks: ["BINANCE:XRPUSDT", "BITSTAMP:XRPUSD", "BYBIT:XRPUSDT"],
-      accentColor: "#38bdf8",
-      decimals: 4,
-      price: 2.4820,
-      change24h: 4.75,
-      high24h: 2.5640,
-      low24h: 2.3510,
-      perfWeek: 19.45,
-      perfMonth: 52.30,
-      perfYear: 318.90,
-      volume24h: "$8.4B",
-      marketCap: "$142.8B",
-      liveNewsHeadline: "Ripple RLUSD institutional settlement volume and cross-border banking corridors expand across Asia & Europe.",
-      liveNewsSource: "CoinDesk Markets"
-    }
-  ];
-
-  // =========================================================================
-  // 2. TOP 5 HIGHEST RISING CRYPTOCURRENCIES (WEEK, MONTH, YEAR)
-  //    Updated Live from TradingView Crypto Scanner (`Perf.W`, `Perf.1M`, `Perf.Y`)
-  //    + CoinGecko Market Movers + Live Crypto News Headlines
-  // =========================================================================
-
-  let TOP_RISERS_STATE = {
-    week: [
-      {
-        rank: 1,
-        symbol: "HYPE",
-        name: "Hyperliquid",
-        tvSymbol: "BYBIT:HYPEUSDT",
-        price: 28.645,
-        gainPct: 34.80,
-        newsCatalyst: "Hyperliquid Assistance Fund daily HYPE buybacks & HyperEVM ecosystem expansion."
-      },
-      {
-        rank: 2,
-        symbol: "SUI",
-        name: "Sui Network",
-        tvSymbol: "BINANCE:SUIUSDT",
-        price: 3.840,
-        gainPct: 29.45,
-        newsCatalyst: "Mysticeti consensus upgrade & institutional gaming/DeFi TVL surge reported on CoinDesk."
-      },
-      {
-        rank: 3,
-        symbol: "TAO",
-        name: "Bittensor",
-        tvSymbol: "BINANCE:TAOUSDT",
-        price: 592.40,
-        gainPct: 24.90,
-        newsCatalyst: "Dynamic TAO AI subnet staking demand surges across decentralized AI compute networks."
-      },
-      {
-        rank: 4,
-        symbol: "XRP",
-        name: "Ripple",
-        tvSymbol: "BINANCE:XRPUSDT",
-        price: 2.4820,
-        gainPct: 19.45,
-        newsCatalyst: "RLUSD institutional liquidity pools and spot ETF filing momentum drive weekly rally."
-      },
-      {
-        rank: 5,
-        symbol: "SOL",
-        name: "Solana",
-        tvSymbol: "BINANCE:SOLUSDT",
-        price: 214.85,
-        gainPct: 16.90,
-        newsCatalyst: "Solana leads all Layer-1 blockchains in 7-day DEX volume and active institutional wallets."
-      }
-    ],
-    month: [
-      {
-        rank: 1,
-        symbol: "HYPE",
-        name: "Hyperliquid",
-        tvSymbol: "BYBIT:HYPEUSDT",
-        price: 28.645,
-        gainPct: 86.50,
-        newsCatalyst: "Hyperliquid captures over 65% of decentralized perpetual futures market share this month."
-      },
-      {
-        rank: 2,
-        symbol: "VIRTUAL",
-        name: "Virtuals Protocol",
-        tvSymbol: "BYBIT:VIRTUALUSDT",
-        price: 3.120,
-        gainPct: 74.20,
-        newsCatalyst: "Autonomous AI agent launches and Base ecosystem fee revenue surge reported by Decrypt."
-      },
-      {
-        rank: 3,
-        symbol: "ONDO",
-        name: "Ondo Finance",
-        tvSymbol: "BYBIT:ONDOUSDT",
-        price: 1.640,
-        gainPct: 58.90,
-        newsCatalyst: "Tokenized US Treasury RWA adoption and Wall Street institutional settlement partnerships."
-      },
-      {
-        rank: 4,
-        symbol: "XRP",
-        name: "Ripple",
-        tvSymbol: "BINANCE:XRPUSDT",
-        price: 2.4820,
-        gainPct: 52.30,
-        newsCatalyst: "Global cross-border payment banks integrate Ripple liquidity corridors across 30-day window."
-      },
-      {
-        rank: 5,
-        symbol: "AAVE",
-        name: "Aave Protocol",
-        tvSymbol: "BINANCE:AAVEUSDT",
-        price: 342.80,
-        gainPct: 44.15,
-        newsCatalyst: "Aave v4 institutional lending deposits surpass $35B TVL milestone in crypto news reports."
-      }
-    ],
-    year: [
-      {
-        rank: 1,
-        symbol: "HYPE",
-        name: "Hyperliquid",
-        tvSymbol: "BYBIT:HYPEUSDT",
-        price: 28.645,
-        gainPct: 642.00,
-        newsCatalyst: "Historic genesis distribution & organic protocol revenue buybacks make HYPE #1 yearly performer."
-      },
-      {
-        rank: 2,
-        symbol: "MANTRA",
-        name: "MANTRA (OM)",
-        tvSymbol: "BINANCE:OMUSDT",
-        price: 4.180,
-        gainPct: 485.30,
-        newsCatalyst: "Real-World Asset (RWA) Layer-1 tokenization deals across Middle East & Institutional Finance."
-      },
-      {
-        rank: 3,
-        symbol: "XRP",
-        name: "Ripple",
-        tvSymbol: "BINANCE:XRPUSDT",
-        price: 2.4820,
-        gainPct: 318.90,
-        newsCatalyst: "Regulatory clarity + RLUSD stablecoin rollout + global institutional adoption over 12 months."
-      },
-      {
-        rank: 4,
-        symbol: "SUI",
-        name: "Sui Network",
-        tvSymbol: "BINANCE:SUIUSDT",
-        price: 3.840,
-        gainPct: 284.50,
-        newsCatalyst: "Move smart contract adoption & sub-second finality drive 1-year institutional inflows."
-      },
-      {
-        rank: 5,
-        symbol: "SOL",
-        name: "Solana",
-        tvSymbol: "BINANCE:SOLUSDT",
-        price: 214.85,
-        gainPct: 245.60,
-        newsCatalyst: "Year-long dominance in consumer crypto apps, DePIN, payments, and global DEX liquidity."
-      }
-    ]
+  const state = {
+    mode: 'exchange', // 'exchange' | 'dutch'
+    currency: '£'     // '£' | '$' | '€'
   };
 
-  // =========================================================================
-  // 3. LIVE CRYPTO NEWS STATE (SIDEBAR)
-  // =========================================================================
+  // DOM References
+  const els = {
+    modeExchangeBtn: document.getElementById('mode-exchange-btn'),
+    modeDutchBtn: document.getElementById('mode-dutch-btn'),
+    currBtns: document.querySelectorAll('.curr-btn'),
+    currPrefixes: document.querySelectorAll('.curr-prefix'),
+    presetChips: document.querySelectorAll('.preset-chip'),
 
-  let LIVE_CRYPTO_NEWS = [
-    {
-      id: "news-1",
-      coin: "BTC",
-      source: "CoinDesk Live",
-      timeAgo: "2m ago",
-      title: "Bitcoin (BTC) Holds High Ground as Spot ETF Institutional Inflows Top $890M in Single Session",
-      summary: "BlackRock and Fidelity spot Bitcoin ETFs recorded another wave of institutional allocation as sovereign treasury desks increase Q4 crypto exposure.",
-      url: "https://www.coindesk.com/markets/"
-    },
-    {
-      id: "news-2",
-      coin: "HYPE",
-      source: "CryptoCompare Wire",
-      timeAgo: "5m ago",
-      title: "Hyperliquid (HYPE) Surges as Daily Perpetual Volume & Assistance Fund Buybacks Hit Record High",
-      summary: "Hyperliquid's Layer-1 orderbook processed over $14B in 24-hour derivatives volume, funneling protocol fees directly into open-market HYPE token buybacks.",
-      url: "https://www.tradingview.com/symbols/HYPEUSDT/"
-    },
-    {
-      id: "news-3",
-      coin: "SOL",
-      source: "Decrypt Live",
-      timeAgo: "9m ago",
-      title: "Solana (SOL) Network Throughput & DEX Liquidity Outpace All Layer-1 Competitors This Week",
-      summary: "Driven by institutional DeFi pools and Firedancer validator optimizations, Solana captured over 48% of all decentralized exchange volume globally.",
-      url: "https://decrypt.co/"
-    },
-    {
-      id: "news-4",
-      coin: "ETH",
-      source: "CoinTelegraph",
-      timeAgo: "14m ago",
-      title: "Ethereum (ETH) Layer-2 Ecosystem Hits Record Blob Capacity as Staking Yield Demand Rises",
-      summary: "Institutional restaking and tokenized Treasury funds on Ethereum mainnet pushed total value locked (TVL) above $74 billion.",
-      url: "https://cointelegraph.com/"
-    },
-    {
-      id: "news-5",
-      coin: "XRP",
-      source: "CoinDesk Markets",
-      timeAgo: "19m ago",
-      title: "Ripple (XRP) Expands RLUSD Institutional Settlement Corridors Across European & Asian Banks",
-      summary: "On-demand liquidity (ODL) volume on the XRP Ledger jumped 41% week-over-week following new cross-border banking integrations.",
-      url: "https://www.coindesk.com/"
-    },
-    {
-      id: "news-6",
-      coin: "RISERS",
-      source: "TradingView Gainers Wire",
-      timeAgo: "24m ago",
-      title: "Weekly & Monthly Crypto Risers Report: HYPE, SUI, TAO, and XRP Lead Market Momentum",
-      summary: "High-throughput Layer-1s, decentralized AI compute networks (TAO), and real-world asset protocols (ONDO, OM) dominate the Top 5 rising leaderboards.",
-      url: "https://www.tradingview.com/markets/cryptocurrencies/prices-most-volatile/"
+    // Converter
+    convFrac: document.getElementById('conv-frac'),
+    convDec: document.getElementById('conv-dec'),
+    convAmer: document.getElementById('conv-amer'),
+    applyConvBet2: document.getElementById('apply-conv-bet2'),
+
+    // Master Banner
+    masterQualResult: document.getElementById('master-qual-result'),
+    masterQualSub: document.getElementById('master-qual-sub'),
+    masterFreeProfit: document.getElementById('master-free-profit'),
+    masterFreeSub: document.getElementById('master-free-sub'),
+    masterNetProfit: document.getElementById('master-net-profit'),
+    masterNetSub: document.getElementById('master-net-sub'),
+    masterTargetBadge: document.getElementById('master-target-badge'),
+    masterRetentionPct: document.getElementById('master-retention-pct'),
+    masterProgressFill: document.getElementById('master-progress-fill'),
+    masterCapitalNeeded: document.getElementById('master-capital-needed'),
+
+    // Bet 1: Qualifying Bet
+    qStake: document.getElementById('q-stake'),
+    qBackOdds: document.getElementById('q-back-odds'),
+    qLayOdds: document.getElementById('q-lay-odds'),
+    qComm: document.getElementById('q-comm'),
+    qBackLabel: document.getElementById('q-back-label'),
+    qLayLabel: document.getElementById('q-lay-label'),
+    qCommLabel: document.getElementById('q-comm-label'),
+    qRatingBadge: document.getElementById('q-rating-badge'),
+    qActionTitle: document.getElementById('q-action-title'),
+    qHedgeStake: document.getElementById('q-hedge-stake'),
+    qInstructionLine: document.getElementById('q-instruction-line'),
+    qLiabilityLabel: document.getElementById('q-liability-label'),
+    qLiability: document.getElementById('q-liability'),
+    qNetLoss: document.getElementById('q-net-loss'),
+    qAdvisor: document.getElementById('q-advisor'),
+    qAdvisorText: document.getElementById('q-advisor-text'),
+    qTableHedgeCol: document.getElementById('q-table-hedge-col'),
+    qWinBookie: document.getElementById('q-win-bookie'),
+    qWinExchange: document.getElementById('q-win-exchange'),
+    qWinNet: document.getElementById('q-win-net'),
+    qLoseBookie: document.getElementById('q-lose-bookie'),
+    qLoseExchange: document.getElementById('q-lose-exchange'),
+    qLoseNet: document.getElementById('q-lose-net'),
+
+    // Bet 2: Free Bet Hedge
+    fStake: document.getElementById('f-stake'),
+    fBackOdds: document.getElementById('f-back-odds'),
+    fLayOdds: document.getElementById('f-lay-odds'),
+    fComm: document.getElementById('f-comm'),
+    fType: document.getElementById('f-type'),
+    fBackLabel: document.getElementById('f-back-label'),
+    fLayLabel: document.getElementById('f-lay-label'),
+    fCommLabel: document.getElementById('f-comm-label'),
+    fRatingBadge: document.getElementById('f-rating-badge'),
+    fActionTitle: document.getElementById('f-action-title'),
+    fHedgeStake: document.getElementById('f-hedge-stake'),
+    fInstructionLine: document.getElementById('f-instruction-line'),
+    fLiabilityLabel: document.getElementById('f-liability-label'),
+    fLiability: document.getElementById('f-liability'),
+    fNetProfit: document.getElementById('f-net-profit'),
+    fAdvisor: document.getElementById('f-advisor'),
+    fAdvisorText: document.getElementById('f-advisor-text'),
+    fTableHedgeCol: document.getElementById('f-table-hedge-col'),
+    fWinBookie: document.getElementById('f-win-bookie'),
+    fWinExchange: document.getElementById('f-win-exchange'),
+    fWinNet: document.getElementById('f-win-net'),
+    fLoseBookie: document.getElementById('f-lose-bookie'),
+    fLoseExchange: document.getElementById('f-lose-exchange'),
+    fLoseNet: document.getElementById('f-lose-net'),
+
+    // Simulator Matrix
+    simFreeStakeLabel: document.getElementById('sim-free-stake-label'),
+    simCommLabel: document.getElementById('sim-comm-label'),
+    matrixHedgeColTitle: document.getElementById('matrix-hedge-col-title'),
+    oddsMatrixBody: document.getElementById('odds-matrix-body')
+  };
+
+  // Format currency helper
+  function fmtMoney(amount, showSign = false) {
+    const c = state.currency;
+    const abs = Math.abs(amount).toFixed(2);
+    if (amount < -0.0001) {
+      return `-${c}${abs}`;
     }
-  ];
-
-  let NEWS_FILTER_COIN = "ALL";
-  let NEWS_SEARCH_QUERY = "";
-
-  // =========================================================================
-  // 4. 3-SECOND SYNCHRONIZED LED GLOW ENGINE
-  //    Pulses the entire pitch-black LED outline every 3.0 seconds!
-  // =========================================================================
-
-  const PULSE_INTERVAL_MS = 3000;
-
-  function triggerThreeSecondLedPulse() {
-    const chassis = document.getElementById("led-chassis-frame");
-    if (chassis) {
-      chassis.classList.add("led-pulse-active");
-      setTimeout(() => {
-        chassis.classList.remove("led-pulse-active");
-      }, 620);
+    if (showSign && amount > 0.0001) {
+      return `+${c}${abs}`;
     }
+    return `${c}${abs}`;
   }
 
-  function startThreeSecondLedEngine() {
-    const countdownText = document.getElementById("pulse-countdown-text");
-    const progressFill = document.getElementById("pulse-progress-fill");
-
-    let elapsed = 0;
-    const stepMs = 100;
-
-    // Fire initial pulse shortly after boot
-    setTimeout(triggerThreeSecondLedPulse, 350);
-
-    setInterval(() => {
-      elapsed += stepMs;
-      if (elapsed >= PULSE_INTERVAL_MS) {
-        elapsed = 0;
-        triggerThreeSecondLedPulse();
-      }
-      const remainingSec = ((PULSE_INTERVAL_MS - elapsed) / 1000).toFixed(1);
-      const pct = Math.min(100, (elapsed / PULSE_INTERVAL_MS) * 100);
-      if (countdownText) countdownText.textContent = `${remainingSec}s`;
-      if (progressFill) progressFill.style.width = `${pct}%`;
-    }, stepMs);
+  // Format pence/cents for small qualifying losses (e.g. "20p" or "20c")
+  function fmtSmallUnit(amount) {
+    const minor = Math.round(Math.abs(amount) * 100);
+    const unit = state.currency === '£' ? 'p' : 'c';
+    if (minor < 100) {
+      return `${minor}${unit}`;
+    }
+    return fmtMoney(Math.abs(amount), false);
   }
 
-  window.setLedColorTheme = function (themeName, btnEl) {
-    if (themeName === "emerald") {
-      document.body.removeAttribute("data-led-theme");
+  // Calculate Bet 1 (Qualifying Bet)
+  function calculateQualifyingBet() {
+    const stake = Math.max(0.01, parseFloat(els.qStake.value) || 0);
+    const backOdds = Math.max(1.01, parseFloat(els.qBackOdds.value) || 1.01);
+    const layOdds = Math.max(1.01, parseFloat(els.qLayOdds.value) || 1.01);
+    const commPct = Math.max(0, Math.min(50, parseFloat(els.qComm.value) || 0));
+    const comm = commPct / 100;
+
+    let hedgeStake = 0;
+    let liability = 0;
+    let winBookie = 0;
+    let winHedge = 0;
+    let loseBookie = 0;
+    let loseHedge = 0;
+    let netIfWin = 0;
+    let netIfLose = 0;
+
+    if (state.mode === 'exchange') {
+      // Exchange Back vs Lay Math
+      const denom = Math.max(0.01, layOdds - comm);
+      hedgeStake = (stake * backOdds) / denom;
+      liability = hedgeStake * (layOdds - 1);
+
+      winBookie = stake * (backOdds - 1);
+      winHedge = -liability;
+      netIfWin = winBookie + winHedge;
+
+      loseBookie = -stake;
+      loseHedge = hedgeStake * (1 - comm);
+      netIfLose = loseBookie + loseHedge;
     } else {
-      document.body.setAttribute("data-led-theme", themeName);
-    }
-    document.querySelectorAll(".color-dot").forEach(b => b.classList.remove("active"));
-    if (btnEl) btnEl.classList.add("active");
-    triggerThreeSecondLedPulse();
-    showToast(`Switched LED Outline Glow to ${themeName.toUpperCase()}`);
-  };
+      // 2-Bookmaker Opposite Outcome Math (Outcome A at backOdds vs Outcome B at layOdds)
+      const effOdds2 = 1 + (layOdds - 1) * (1 - comm);
+      hedgeStake = (stake * backOdds) / Math.max(1.001, effOdds2);
+      liability = hedgeStake; // Cash staked at Bookmaker 2
 
-  // =========================================================================
-  // 5. RENDERING THE 5 DEDICATED CRYPTO SECTIONS (BTC, ETH, SOL, HYPE, XRP)
-  // =========================================================================
+      winBookie = stake * (backOdds - 1);
+      winHedge = -hedgeStake;
+      netIfWin = winBookie + winHedge;
 
-  function formatUsd(val, decimals = 2) {
-    if (val === undefined || val === null || isNaN(val)) return "$—";
-    return "$" + Number(val).toLocaleString("en-US", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    });
-  }
-
-  function formatSignedPct(val) {
-    if (val === undefined || val === null || isNaN(val)) return "0.00%";
-    const num = Number(val);
-    return `${num >= 0 ? "+" : ""}${num.toFixed(2)}%`;
-  }
-
-  function renderFiveCryptoSections() {
-    const container = document.getElementById("five-crypto-sections-container");
-    if (!container) return;
-
-    container.innerHTML = FIVE_CRYPTOS.map(crypto => {
-      const isUp = crypto.change24h >= 0;
-      const wUp = crypto.perfWeek >= 0;
-      const mUp = crypto.perfMonth >= 0;
-      const yUp = crypto.perfYear >= 0;
-
-      return `
-        <article class="crypto-dedicated-section" id="crypto-section-${crypto.symbol}" style="--crypto-accent:${crypto.accentColor};">
-          <div class="crypto-sec-grid">
-
-            <!-- Left Column: Real-Time TradingView Telemetry & News Catalyst -->
-            <div class="crypto-sec-info">
-              <div class="crypto-sec-top">
-                <div class="crypto-identity">
-                  <div class="crypto-rank-orb">${crypto.symbol}</div>
-                  <div class="crypto-title-block">
-                    <h3>
-                      <span>SECTION 0${crypto.rank} // ${crypto.name.toUpperCase()} (${crypto.symbol})</span>
-                      <span class="tv-ticker-tag">${crypto.tvSymbol}</span>
-                    </h3>
-                    <div class="crypto-subtitle">
-                      Live Direct TradingView Price Feed • Market Cap: <strong>${crypto.marketCap}</strong> • 24H Vol: <strong>${crypto.volume24h}</strong>
-                    </div>
-                  </div>
-                </div>
-
-                <button class="led-btn led-btn-mini" onclick="switchMasterTradingViewChart('${crypto.tvSymbol}', '${crypto.name} (${crypto.symbol})'); document.getElementById('master-tv-chart-section').scrollIntoView({behavior:'smooth'});">
-                  <span>📈 Expand Pro TV Chart</span>
-                </button>
-              </div>
-
-              <!-- Giant Live TradingView Price Strip -->
-              <div class="crypto-live-price-banner">
-                <div class="price-main-wrap">
-                  <span class="crypto-giant-price" data-tv-price="${crypto.symbol}">
-                    ${formatUsd(crypto.price, crypto.decimals)}
-                  </span>
-                  <span class="crypto-delta-pill ${isUp ? 'delta-up' : 'delta-down'}" data-tv-chg="${crypto.symbol}">
-                    ${formatSignedPct(crypto.change24h)} (24H)
-                  </span>
-                </div>
-                <div class="tv-live-source-note">
-                  <span>⚡ LIVE FROM TRADINGVIEW</span>
-                </div>
-              </div>
-
-              <!-- 6-Cell TradingView Multi-Timeframe Metrics -->
-              <div class="crypto-metrics-grid">
-                <div class="metric-cell">
-                  <span>24H HIGH (TV)</span>
-                  <strong data-tv-high="${crypto.symbol}">${formatUsd(crypto.high24h, crypto.decimals)}</strong>
-                </div>
-                <div class="metric-cell">
-                  <span>24H LOW (TV)</span>
-                  <strong data-tv-low="${crypto.symbol}">${formatUsd(crypto.low24h, crypto.decimals)}</strong>
-                </div>
-                <div class="metric-cell">
-                  <span>7-DAY (WEEK)</span>
-                  <strong style="color:${wUp ? 'var(--up-green)' : 'var(--down-red)'};" data-tv-week="${crypto.symbol}">
-                    ${formatSignedPct(crypto.perfWeek)}
-                  </strong>
-                </div>
-                <div class="metric-cell">
-                  <span>30-DAY (MONTH)</span>
-                  <strong style="color:${mUp ? 'var(--up-green)' : 'var(--down-red)'};" data-tv-month="${crypto.symbol}">
-                    ${formatSignedPct(crypto.perfMonth)}
-                  </strong>
-                </div>
-                <div class="metric-cell">
-                  <span>365-DAY (YEAR)</span>
-                  <strong style="color:${yUp ? 'var(--up-green)' : 'var(--down-red)'};" data-tv-year="${crypto.symbol}">
-                    ${formatSignedPct(crypto.perfYear)}
-                  </strong>
-                </div>
-                <div class="metric-cell">
-                  <span>TRADINGVIEW FEED</span>
-                  <strong style="color:var(--led-primary);">ACTIVE LIVE</strong>
-                </div>
-              </div>
-
-              <!-- Latest Crypto News Headline for this Asset -->
-              <div class="crypto-section-news-strip">
-                <div>
-                  <strong style="color:var(--led-primary); font-family:var(--font-mono); font-size:11px;">
-                    📰 LIVE ${crypto.symbol} NEWS (${crypto.liveNewsSource}):
-                  </strong>
-                  <span data-crypto-news="${crypto.symbol}">${crypto.liveNewsHeadline}</span>
-                </div>
-                <button class="news-filter-pill" onclick="filterCryptoNews('${crypto.symbol}'); document.getElementById('live-crypto-news-sidebar').scrollIntoView({behavior:'smooth'});">
-                  ${crypto.symbol} News →
-                </button>
-              </div>
-            </div>
-
-            <!-- Right Column: Embedded Live TradingView Chart Widget for this Crypto -->
-            <div class="crypto-sec-chart-col">
-              <div class="mini-chart-toolbar">
-                <span>TRADINGVIEW LIVE CHART // <strong>${crypto.tvSymbol}</strong></span>
-                <span style="color:var(--up-green);">● STREAMING</span>
-              </div>
-              <div class="tv-embed-slot" id="tv_section_chart_${crypto.symbol}"></div>
-            </div>
-
-          </div>
-        </article>
-      `;
-    }).join("");
-
-    // Update top quick-nav prices
-    FIVE_CRYPTOS.forEach(c => {
-      document.querySelectorAll(`[data-nav-price="${c.symbol}"]`).forEach(el => {
-        el.textContent = formatUsd(c.price, c.decimals);
-      });
-    });
-
-    // Mount embedded TradingView widgets inside each of the 5 crypto sections
-    mountSectionTradingViewCharts();
-  }
-
-  function mountSectionTradingViewCharts() {
-    if (typeof TradingView === "undefined" || !TradingView.widget) return;
-
-    FIVE_CRYPTOS.forEach(crypto => {
-      const containerId = `tv_section_chart_${crypto.symbol}`;
-      const el = document.getElementById(containerId);
-      if (!el) return;
-      el.innerHTML = "";
-
-      new TradingView.widget({
-        autosize: true,
-        symbol: crypto.tvSymbol,
-        interval: "15",
-        timezone: "Etc/UTC",
-        theme: "dark",
-        style: "1",
-        locale: "en",
-        enable_publishing: false,
-        hide_top_toolbar: true,
-        hide_legend: false,
-        save_image: false,
-        backgroundColor: "rgba(0, 0, 0, 1)",
-        gridColor: "rgba(0, 243, 255, 0.06)",
-        container_id: containerId
-      });
-    });
-  }
-
-  // Master Full-Size TradingView Chart Switcher
-  window.switchMasterTradingViewChart = function (tvSymbol, label, btnEl) {
-    const titleEl = document.getElementById("master-chart-title");
-    if (titleEl) {
-      titleEl.textContent = `${tvSymbol} — ${label} Live TradingView Pro Terminal`;
+      loseBookie = -stake;
+      loseHedge = hedgeStake * (effOdds2 - 1);
+      netIfLose = loseBookie + loseHedge;
     }
 
-    if (btnEl && btnEl.parentElement) {
-      btnEl.parentElement.querySelectorAll(".tv-tab-btn").forEach(b => b.classList.remove("active"));
-      btnEl.classList.add("active");
-    }
+    const guaranteedNet = (netIfWin + netIfLose) / 2;
+    const ratingPct = ((stake + guaranteedNet) / stake) * 100;
 
-    const container = document.getElementById("master_tv_chart_container");
-    if (!container) return;
-    container.innerHTML = "";
-
-    if (typeof TradingView !== "undefined" && TradingView.widget) {
-      new TradingView.widget({
-        autosize: true,
-        symbol: tvSymbol,
-        interval: "15",
-        timezone: "Etc/UTC",
-        theme: "dark",
-        style: "1",
-        locale: "en",
-        enable_publishing: false,
-        hide_top_toolbar: false,
-        hide_legend: false,
-        save_image: false,
-        backgroundColor: "rgba(0, 0, 0, 1)",
-        gridColor: "rgba(0, 243, 255, 0.08)",
-        container_id: "master_tv_chart_container"
-      });
-    }
-  };
-
-  window.scrollToCryptoSection = function (symbol, btnEl) {
-    document.querySelectorAll(".crypto-nav-pill").forEach(b => b.classList.remove("active"));
-    if (btnEl) btnEl.classList.add("active");
-
-    if (symbol === "ALL") {
-      FIVE_CRYPTOS.forEach(c => {
-        const el = document.getElementById(`crypto-section-${c.symbol}`);
-        if (el) el.style.display = "block";
-      });
-      const master = document.getElementById("five-cryptos-master-section");
-      if (master) master.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-
-    FIVE_CRYPTOS.forEach(c => {
-      const el = document.getElementById(`crypto-section-${c.symbol}`);
-      if (el) el.style.display = "block";
-    });
-
-    const target = document.getElementById(`crypto-section-${symbol}`);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-      triggerThreeSecondLedPulse();
-    }
-  };
-
-  // =========================================================================
-  // 6. DIRECT LIVE TRADINGVIEW SCANNER API ENGINE (`scanner.tradingview.com`)
-  //    Pulls Real-Time Prices for BTC, ETH, SOL, HYPE, XRP Every 3 Seconds!
-  // =========================================================================
-
-  async function fetchLiveTradingViewPrices() {
-    const allTickers = [];
-    FIVE_CRYPTOS.forEach(c => {
-      c.tvFallbacks.forEach(t => {
-        if (!allTickers.includes(t)) allTickers.push(t);
-      });
-    });
-
-    try {
-      const response = await fetch("https://scanner.tradingview.com/crypto/scan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain;charset=UTF-8"
-        },
-        body: JSON.stringify({
-          symbols: {
-            tickers: allTickers,
-            query: { types: [] }
-          },
-          columns: [
-            "close",
-            "change",
-            "high",
-            "low",
-            "Perf.W",
-            "Perf.1M",
-            "Perf.Y",
-            "volume"
-          ]
-        })
-      });
-
-      if (!response.ok) throw new Error("TV Crypto Scan HTTP " + response.status);
-      const data = await response.json();
-      if (!data || !Array.isArray(data.data)) return;
-
-      const quoteMap = {};
-      data.data.forEach(row => {
-        if (row && row.s && Array.isArray(row.d)) {
-          quoteMap[row.s] = {
-            close: row.d[0],
-            change24h: row.d[1],
-            high24h: row.d[2],
-            low24h: row.d[3],
-            perfWeek: row.d[4],
-            perfMonth: row.d[5],
-            perfYear: row.d[6],
-            volume: row.d[7]
-          };
-        }
-      });
-
-      FIVE_CRYPTOS.forEach(crypto => {
-        // Find the first matching ticker from fallbacks that returned a valid price
-        let matchedQuote = null;
-        for (const t of crypto.tvFallbacks) {
-          if (quoteMap[t] && quoteMap[t].close !== null && quoteMap[t].close !== undefined) {
-            matchedQuote = quoteMap[t];
-            break;
-          }
-        }
-
-        if (matchedQuote) {
-          const oldPrice = crypto.price;
-          crypto.price = Number(matchedQuote.close);
-          if (matchedQuote.change24h !== null && matchedQuote.change24h !== undefined) {
-            crypto.change24h = Number(matchedQuote.change24h);
-          }
-          if (matchedQuote.high24h) crypto.high24h = Number(matchedQuote.high24h);
-          if (matchedQuote.low24h) crypto.low24h = Number(matchedQuote.low24h);
-          if (matchedQuote.perfWeek !== null && matchedQuote.perfWeek !== undefined) {
-            crypto.perfWeek = Number(matchedQuote.perfWeek);
-          }
-          if (matchedQuote.perfMonth !== null && matchedQuote.perfMonth !== undefined) {
-            crypto.perfMonth = Number(matchedQuote.perfMonth);
-          }
-          if (matchedQuote.perfYear !== null && matchedQuote.perfYear !== undefined) {
-            crypto.perfYear = Number(matchedQuote.perfYear);
-          }
-
-          updateCryptoDomTelemetry(crypto, oldPrice);
-        }
-      });
-
-      const nowStr = new Date().toISOString().slice(11, 19) + " UTC";
-      const tickEl = document.getElementById("last-tv-tick-time");
-      const statusEl = document.getElementById("tv-sync-status");
-      if (tickEl) tickEl.textContent = `TradingView Live Tick: ${nowStr}`;
-      if (statusEl) statusEl.textContent = `TradingView API: LIVE (${nowStr})`;
-
-    } catch (err) {
-      // Fallback to local Python proxy `/api/all` if running through server.py
-      try {
-        const res = await fetch("/api/quotes");
-        if (res.ok) {
-          const localData = await res.json();
-          if (localData && localData.quotes) {
-            FIVE_CRYPTOS.forEach(crypto => {
-              for (const t of crypto.tvFallbacks) {
-                const q = localData.quotes[t];
-                if (q && q.price) {
-                  const oldPrice = crypto.price;
-                  crypto.price = Number(q.price);
-                  crypto.change24h = Number(q.changePercent || crypto.change24h);
-                  updateCryptoDomTelemetry(crypto, oldPrice);
-                  break;
-                }
-              }
-            });
-          }
-        }
-      } catch (_) {}
-    }
-  }
-
-  function updateCryptoDomTelemetry(crypto, oldPrice) {
-    const formattedPrice = formatUsd(crypto.price, crypto.decimals);
-    const isUp24 = crypto.change24h >= 0;
-
-    // 1. Update Giant Price in Section
-    document.querySelectorAll(`[data-tv-price="${crypto.symbol}"]`).forEach(el => {
-      if (el.textContent.trim() !== formattedPrice) {
-        el.textContent = formattedPrice;
-        el.classList.remove("flash-up", "flash-down");
-        el.classList.add(crypto.price >= oldPrice ? "flash-up" : "flash-down");
-        setTimeout(() => el.classList.remove("flash-up", "flash-down"), 550);
-      }
-    });
-
-    // 2. Update Quick-Nav Price
-    document.querySelectorAll(`[data-nav-price="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formattedPrice;
-    });
-
-    // 3. Update 24H Change Pill
-    document.querySelectorAll(`[data-tv-chg="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = `${formatSignedPct(crypto.change24h)} (24H)`;
-      el.className = `crypto-delta-pill ${isUp24 ? "delta-up" : "delta-down"}`;
-    });
-
-    // 4. Update High / Low / Week / Month / Year cells
-    document.querySelectorAll(`[data-tv-high="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formatUsd(crypto.high24h, crypto.decimals);
-    });
-    document.querySelectorAll(`[data-tv-low="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formatUsd(crypto.low24h, crypto.decimals);
-    });
-    document.querySelectorAll(`[data-tv-week="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formatSignedPct(crypto.perfWeek);
-      el.style.color = crypto.perfWeek >= 0 ? "var(--up-green)" : "var(--down-red)";
-    });
-    document.querySelectorAll(`[data-tv-month="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formatSignedPct(crypto.perfMonth);
-      el.style.color = crypto.perfMonth >= 0 ? "var(--up-green)" : "var(--down-red)";
-    });
-    document.querySelectorAll(`[data-tv-year="${crypto.symbol}"]`).forEach(el => {
-      el.textContent = formatSignedPct(crypto.perfYear);
-      el.style.color = crypto.perfYear >= 0 ? "var(--up-green)" : "var(--down-red)";
-    });
-  }
-
-  // =========================================================================
-  // 7. TOP 5 HIGHEST RISING CRYPTOCURRENCIES OF THE WEEK, MONTH & YEAR
-  //    Pulls Live Multi-Timeframe Gainers from TradingView + CoinGecko & News
-  // =========================================================================
-
-  const RISER_CANDIDATE_TICKERS = [
-    { symbol: "BTC", name: "Bitcoin", tvSymbol: "BINANCE:BTCUSDT" },
-    { symbol: "ETH", name: "Ethereum", tvSymbol: "BINANCE:ETHUSDT" },
-    { symbol: "SOL", name: "Solana", tvSymbol: "BINANCE:SOLUSDT" },
-    { symbol: "HYPE", name: "Hyperliquid", tvSymbol: "BYBIT:HYPEUSDT" },
-    { symbol: "XRP", name: "Ripple", tvSymbol: "BINANCE:XRPUSDT" },
-    { symbol: "SUI", name: "Sui Network", tvSymbol: "BINANCE:SUIUSDT" },
-    { symbol: "TAO", name: "Bittensor", tvSymbol: "BINANCE:TAOUSDT" },
-    { symbol: "AAVE", name: "Aave Protocol", tvSymbol: "BINANCE:AAVEUSDT" },
-    { symbol: "ONDO", name: "Ondo Finance", tvSymbol: "BYBIT:ONDOUSDT" },
-    { symbol: "DOGE", name: "Dogecoin", tvSymbol: "BINANCE:DOGEUSDT" },
-    { symbol: "LINK", name: "Chainlink", tvSymbol: "BINANCE:LINKUSDT" },
-    { symbol: "ADA", name: "Cardano", tvSymbol: "BINANCE:ADAUSDT" },
-    { symbol: "AVAX", name: "Avalanche", tvSymbol: "BINANCE:AVAXUSDT" },
-    { symbol: "TRX", name: "TRON", tvSymbol: "BINANCE:TRXUSDT" },
-    { symbol: "PEPE", name: "Pepe", tvSymbol: "BINANCE:PEPEUSDT" },
-    { symbol: "OM", name: "MANTRA RWA", tvSymbol: "BINANCE:OMUSDT" },
-    { symbol: "RENDER", name: "Render Network", tvSymbol: "BINANCE:RENDERUSDT" },
-    { symbol: "NEAR", name: "NEAR Protocol", tvSymbol: "BINANCE:NEARUSDT" }
-  ];
-
-  const COIN_NEWS_CATALYSTS = {
-    BTC: "Spot Bitcoin ETF institutional inflows & sovereign reserve accumulation.",
-    ETH: "Ethereum Layer-2 blob scaling & institutional staking inflows.",
-    SOL: "Solana #1 in global DEX volume & Firedancer institutional throughput.",
-    HYPE: "Hyperliquid L1 perp DEX volume & Assistance Fund HYPE buybacks.",
-    XRP: "Ripple RLUSD institutional settlement corridors & ETF momentum.",
-    SUI: "Mysticeti sub-second consensus & booming Move DeFi TVL.",
-    TAO: "Decentralized AI subnet staking & Bittensor compute expansion.",
-    AAVE: "Aave v4 institutional lending surpasses $35B TVL across DeFi.",
-    ONDO: "Tokenized US Treasury RWA demand from institutional asset managers.",
-    DOGE: "High retail & payment ecosystem velocity across major exchanges.",
-    LINK: "Chainlink CCIP cross-chain banking & Swift tokenization pilots.",
-    ADA: "Cardano governance upgrade & Bitcoin DeFi bridge integration.",
-    AVAX: "Avalanche9000 institutional subnet deployments & gaming growth.",
-    TRX: "Record global USDT stablecoin settlement volume on TRON network.",
-    PEPE: "Surging spot exchange liquidity and social momentum across crypto news.",
-    OM: "MANTRA Real-World Asset (RWA) institutional tokenization deals.",
-    RENDER: "Decentralized GPU rendering demand for 3D & generative AI workloads.",
-    NEAR: "Chain abstraction & AI user-owned intent architecture adoption."
-  };
-
-  function renderTopRisersBoards() {
-    renderSingleRiserList("risers-week-list", TOP_RISERS_STATE.week, "7D WEEK");
-    renderSingleRiserList("risers-month-list", TOP_RISERS_STATE.month, "30D MONTH");
-    renderSingleRiserList("risers-year-list", TOP_RISERS_STATE.year, "1Y YEAR");
-  }
-
-  function renderSingleRiserList(containerId, items, periodLabel) {
-    const el = document.getElementById(containerId);
-    if (!el) return;
-
-    el.innerHTML = items.slice(0, 5).map((item, idx) => {
-      const decimals = item.price < 1 ? 5 : item.price < 10 ? 3 : 2;
-      const gainVal = Number(item.gainPct || 0);
-      return `
-        <div class="riser-item-card" onclick="switchMasterTradingViewChart('${item.tvSymbol}', '${item.name} (${item.symbol})'); document.getElementById('master-tv-chart-section').scrollIntoView({behavior:'smooth'});">
-          <div class="riser-item-top">
-            <div class="riser-rank-sym">
-              <div class="riser-rank-num">#${idx + 1}</div>
-              <div class="riser-sym-name">
-                <strong>${item.symbol}</strong>
-                <span>${item.name} • ${item.tvSymbol}</span>
-              </div>
-            </div>
-            <div class="riser-gain-box">
-              <span class="riser-gain-pct">+${Math.max(0.1, gainVal).toFixed(2)}%</span>
-              <span class="riser-live-price">${formatUsd(item.price, decimals)} (${periodLabel})</span>
-            </div>
-          </div>
-          <div class="riser-news-catalyst">
-            <strong>📰 NEWS CATALYST:</strong> ${item.newsCatalyst}
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  window.fetchTopRisingCryptosLive = async function (showUserToast = false) {
-    try {
-      const response = await fetch("https://scanner.tradingview.com/crypto/scan", {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain;charset=UTF-8"
-        },
-        body: JSON.stringify({
-          symbols: {
-            tickers: RISER_CANDIDATE_TICKERS.map(c => c.tvSymbol),
-            query: { types: [] }
-          },
-          columns: ["close", "Perf.W", "Perf.1M", "Perf.Y", "change"]
-        })
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result && Array.isArray(result.data) && result.data.length > 0) {
-          const parsed = [];
-          result.data.forEach(row => {
-            const meta = RISER_CANDIDATE_TICKERS.find(c => c.tvSymbol === row.s);
-            if (meta && Array.isArray(row.d) && row.d[0] !== null) {
-              const closePrice = Number(row.d[0]);
-              const perfW = row.d[1] !== null ? Number(row.d[1]) : Number(row.d[4] || 5.0);
-              const perfM = row.d[2] !== null ? Number(row.d[2]) : perfW * 2.1;
-              const perfY = row.d[3] !== null ? Number(row.d[3]) : perfM * 3.4;
-
-              // Find if there is a live news headline matching this coin in LIVE_CRYPTO_NEWS
-              const matchingNews = LIVE_CRYPTO_NEWS.find(
-                n => n.coin === meta.symbol || n.title.toUpperCase().includes(meta.symbol)
-              );
-
-              parsed.push({
-                symbol: meta.symbol,
-                name: meta.name,
-                tvSymbol: meta.tvSymbol,
-                price: closePrice,
-                perfW,
-                perfM,
-                perfY,
-                newsCatalyst: matchingNews
-                  ? matchingNews.title
-                  : (COIN_NEWS_CATALYSTS[meta.symbol] || "Strong institutional spot & derivatives accumulation on TradingView.")
-              });
-            }
-          });
-
-          if (parsed.length >= 5) {
-            // Sort for Top 5 of the Week
-            const topWeek = [...parsed]
-              .sort((a, b) => b.perfW - a.perfW)
-              .slice(0, 5)
-              .map((item, i) => ({
-                rank: i + 1,
-                symbol: item.symbol,
-                name: item.name,
-                tvSymbol: item.tvSymbol,
-                price: item.price,
-                gainPct: item.perfW > 0 ? item.perfW : Math.abs(item.perfW) + 4.2,
-                newsCatalyst: item.newsCatalyst
-              }));
-
-            // Sort for Top 5 of the Month
-            const topMonth = [...parsed]
-              .sort((a, b) => b.perfM - a.perfM)
-              .slice(0, 5)
-              .map((item, i) => ({
-                rank: i + 1,
-                symbol: item.symbol,
-                name: item.name,
-                tvSymbol: item.tvSymbol,
-                price: item.price,
-                gainPct: item.perfM > 0 ? item.perfM : Math.abs(item.perfM) + 12.5,
-                newsCatalyst: item.newsCatalyst
-              }));
-
-            // Sort for Top 5 of the Year
-            const topYear = [...parsed]
-              .sort((a, b) => b.perfY - a.perfY)
-              .slice(0, 5)
-              .map((item, i) => ({
-                rank: i + 1,
-                symbol: item.symbol,
-                name: item.name,
-                tvSymbol: item.tvSymbol,
-                price: item.price,
-                gainPct: item.perfY > 0 ? item.perfY : Math.abs(item.perfY) + 45.0,
-                newsCatalyst: item.newsCatalyst
-              }));
-
-            TOP_RISERS_STATE.week = topWeek;
-            TOP_RISERS_STATE.month = topMonth;
-            TOP_RISERS_STATE.year = topYear;
-            renderTopRisersBoards();
-
-            const tLabel = new Date().toISOString().slice(11, 19) + " UTC";
-            ["week-risers-status", "month-risers-status", "year-risers-status"].forEach(id => {
-              const el = document.getElementById(id);
-              if (el) el.textContent = `LIVE • ${tLabel}`;
-            });
-
-            if (showUserToast) {
-              showToast("Updated Top 5 Highest Rising Cryptos of the Week, Month & Year!");
-            }
-          }
-        }
-      }
-    } catch (e) {
-      // Retain existing verified Top 5 Risers if offline
-    }
-  };
-
-  window.switchRiserViewMode = function (period, btnEl) {
-    document.querySelectorAll(".riser-tab-btn").forEach(b => b.classList.remove("active"));
-    if (btnEl) btnEl.classList.add("active");
-
-    const grid = document.getElementById("risers-three-col-grid");
-    const colWeek = document.getElementById("riser-col-week");
-    const colMonth = document.getElementById("riser-col-month");
-    const colYear = document.getElementById("riser-col-year");
-
-    if (period === "ALL") {
-      if (grid) grid.style.gridTemplateColumns = "";
-      if (colWeek) colWeek.style.display = "flex";
-      if (colMonth) colMonth.style.display = "flex";
-      if (colYear) colYear.style.display = "flex";
-    } else {
-      if (grid) grid.style.gridTemplateColumns = "1fr";
-      if (colWeek) colWeek.style.display = period === "WEEK" ? "flex" : "none";
-      if (colMonth) colMonth.style.display = period === "MONTH" ? "flex" : "none";
-      if (colYear) colYear.style.display = period === "YEAR" ? "flex" : "none";
-    }
-  };
-
-  // =========================================================================
-  // 8. LIVE CRYPTO NEWS ENGINE (DIRECT FROM CRYPTO NEWS WEBSITES)
-  //    Pulls Real-Time Articles from CryptoCompare Public News API
-  //    (Aggregating CoinDesk, CoinTelegraph, Decrypt, The Block, Bitcoinist)
-  // =========================================================================
-
-  function renderCryptoNewsSidebar() {
-    const streamEl = document.getElementById("crypto-news-stream");
-    const countBadge = document.getElementById("news-count-badge");
-    if (!streamEl) return;
-
-    const filtered = LIVE_CRYPTO_NEWS.filter(item => {
-      if (NEWS_FILTER_COIN !== "ALL" && item.coin !== NEWS_FILTER_COIN) {
-        const textUpper = (item.title + " " + item.summary).toUpperCase();
-        if (!textUpper.includes(NEWS_FILTER_COIN)) return false;
-      }
-      if (NEWS_SEARCH_QUERY) {
-        const q = NEWS_SEARCH_QUERY.toLowerCase();
-        return (
-          item.title.toLowerCase().includes(q) ||
-          item.summary.toLowerCase().includes(q) ||
-          item.source.toLowerCase().includes(q) ||
-          item.coin.toLowerCase().includes(q)
-        );
-      }
-      return true;
-    });
-
-    if (countBadge) {
-      countBadge.textContent = `${filtered.length} Live Articles`;
-    }
-
-    streamEl.innerHTML = filtered.map(item => `
-      <article class="crypto-news-card">
-        <div class="news-card-meta">
-          <span class="news-source-badge">📡 ${item.source}</span>
-          <span class="news-time-tag">${item.timeAgo}</span>
-        </div>
-        <h4 class="news-card-title">
-          <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-        </h4>
-        <p class="news-card-summary">${item.summary}</p>
-        <div class="news-card-footer">
-          <span class="news-coin-tag">#${item.coin}</span>
-          <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="news-read-link">
-            Read Full Article ↗
-          </a>
-        </div>
-      </article>
-    `).join("");
-  }
-
-  function detectCoinTagFromText(text) {
-    const upper = (text || "").toUpperCase();
-    if (upper.includes("HYPERLIQUID") || upper.includes("HYPE")) return "HYPE";
-    if (upper.includes("SOLANA") || upper.includes(" SOL ")) return "SOL";
-    if (upper.includes("XRP") || upper.includes("RIPPLE")) return "XRP";
-    if (upper.includes("ETHEREUM") || upper.includes(" ETH ")) return "ETH";
-    if (upper.includes("BITCOIN") || upper.includes(" BTC ")) return "BTC";
-    return "RISERS";
-  }
-
-  function formatRelativeTime(unixSeconds) {
-    if (!unixSeconds) return "Just now";
-    const diffSec = Math.max(10, Math.floor(Date.now() / 1000 - unixSeconds));
-    if (diffSec < 60) return `${diffSec}s ago`;
-    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
-    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
-    return `${Math.floor(diffSec / 86400)}d ago`;
-  }
-
-  window.fetchLiveCryptoNewsFeeds = async function (showUserToast = false) {
-    try {
-      // CryptoCompare Public News API (Supports CORS directly in browser, zero API key required)
-      const res = await fetch("https://min-api.cryptocompare.com/data/v2/news/?lang=EN");
-      if (res.ok) {
-        const json = await res.json();
-        if (json && Array.isArray(json.Data) && json.Data.length > 0) {
-          const liveArticles = json.Data.slice(0, 24).map((article, idx) => {
-            const detectedCoin = detectCoinTagFromText(
-              (article.title || "") + " " + (article.categories || "") + " " + (article.body || "")
-            );
-            const cleanBody = (article.body || "")
-              .replace(/<[^>]*>/g, "")
-              .slice(0, 175)
-              .trim() + "...";
-
-            return {
-              id: `cc-news-${article.id || idx}`,
-              coin: detectedCoin,
-              source: (article.source_info && article.source_info.name) || article.source || "Crypto News Wire",
-              timeAgo: formatRelativeTime(article.published_on),
-              title: article.title,
-              summary: cleanBody,
-              url: article.url || "https://www.coindesk.com/"
-            };
-          });
-
-          // Merge so we always have dedicated coverage for BTC, ETH, SOL, HYPE, XRP plus the newest live stream
-          const combined = [...liveArticles];
-          FIVE_CRYPTOS.forEach(c => {
-            const match = combined.find(a => a.coin === c.symbol);
-            if (match) {
-              c.liveNewsHeadline = match.title;
-              c.liveNewsSource = match.source;
-              document.querySelectorAll(`[data-crypto-news="${c.symbol}"]`).forEach(el => {
-                el.textContent = match.title;
-              });
-            }
-          });
-
-          LIVE_CRYPTO_NEWS = combined;
-          renderCryptoNewsSidebar();
-
-          const statusEl = document.getElementById("news-feed-status-label");
-          if (statusEl) {
-            statusEl.textContent = "LIVE (" + new Date().toISOString().slice(11, 19) + " UTC)";
-          }
-
-          if (showUserToast) {
-            showToast("Fetched latest live headlines from Crypto News websites!");
-          }
-          return;
-        }
-      }
-    } catch (err) {
-      // Fallback to local server `/api/news` if available
-      try {
-        const localRes = await fetch("/api/news");
-        if (localRes.ok) {
-          const localJson = await localRes.json();
-          if (localJson && Array.isArray(localJson.news) && localJson.news.length > 0) {
-            LIVE_CRYPTO_NEWS = localJson.news;
-            renderCryptoNewsSidebar();
-          }
-        }
-      } catch (_) {}
-    }
-  };
-
-  window.filterCryptoNews = function (coinTag, btnEl) {
-    NEWS_FILTER_COIN = coinTag;
-    document.querySelectorAll(".news-filter-pill").forEach(b => b.classList.remove("active"));
-    if (btnEl) {
-      btnEl.classList.add("active");
-    }
-    renderCryptoNewsSidebar();
-  };
-
-  window.searchCryptoNews = function (query) {
-    NEWS_SEARCH_QUERY = (query || "").trim();
-    renderCryptoNewsSidebar();
-  };
-
-  window.manualSyncAll = async function () {
-    triggerThreeSecondLedPulse();
-    showToast("Synchronizing live TradingView prices, Crypto News & Top 5 Risers...");
-    await Promise.all([
-      fetchLiveTradingViewPrices(),
-      fetchTopRisingCryptosLive(false),
-      fetchLiveCryptoNewsFeeds(false)
-    ]);
-    showToast("All 5 Cryptos (BTC, ETH, SOL, HYPE, XRP), Top 5 Risers & News Synchronized!");
-  };
-
-  function showToast(msg) {
-    const container = document.getElementById("toast-container");
-    if (!container) return;
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.textContent = msg;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3200);
-  }
-
-  function startUtcClock() {
-    const clockEl = document.getElementById("utc-clock");
-    if (!clockEl) return;
-    const update = () => {
-      clockEl.textContent = new Date().toISOString().replace("T", " ").slice(0, 19) + " UTC";
+    return {
+      stake,
+      backOdds,
+      layOdds,
+      commPct,
+      hedgeStake,
+      liability,
+      winBookie,
+      winHedge,
+      netIfWin,
+      loseBookie,
+      loseHedge,
+      netIfLose,
+      guaranteedNet,
+      ratingPct
     };
-    update();
-    setInterval(update, 1000);
   }
 
-  // =========================================================================
-  // 9. INITIALIZATION ON DOM CONTENT LOADED
-  // =========================================================================
+  // Calculate Bet 2 (Free Bet Hedge - SNR or SR)
+  function calculateFreeBet() {
+    const stake = Math.max(0.01, parseFloat(els.fStake.value) || 0);
+    const backOdds = Math.max(1.01, parseFloat(els.fBackOdds.value) || 1.01);
+    const layOdds = Math.max(1.01, parseFloat(els.fLayOdds.value) || 1.01);
+    const commPct = Math.max(0, Math.min(50, parseFloat(els.fComm.value) || 0));
+    const comm = commPct / 100;
+    const betType = els.fType.value; // 'SNR' or 'SR'
 
-  document.addEventListener("DOMContentLoaded", () => {
-    startUtcClock();
-    renderFiveCryptoSections();
-    renderTopRisersBoards();
-    renderCryptoNewsSidebar();
+    let hedgeStake = 0;
+    let liability = 0;
+    let winBookie = 0;
+    let winHedge = 0;
+    let loseBookie = 0;
+    let loseHedge = 0;
+    let netIfWin = 0;
+    let netIfLose = 0;
 
-    // Load Master TradingView Chart for BTC by default
-    window.switchMasterTradingViewChart("BINANCE:BTCUSDT", "Bitcoin (BTC)");
+    const effectiveBackReturn = betType === 'SNR' ? stake * (backOdds - 1) : stake * backOdds;
 
-    // Start the 3-second synchronized LED outline glow & beep pulse
-    startThreeSecondLedEngine();
+    if (state.mode === 'exchange') {
+      // Exchange Lay Hedge for Free Bet
+      const denom = Math.max(0.01, layOdds - comm);
+      hedgeStake = effectiveBackReturn / denom;
+      liability = hedgeStake * (layOdds - 1);
 
-    // Immediately pull live TradingView prices, Top 5 Risers, and Live Crypto News
-    fetchLiveTradingViewPrices();
-    fetchTopRisingCryptosLive(false);
-    fetchLiveCryptoNewsFeeds(false);
+      winBookie = effectiveBackReturn;
+      winHedge = -liability;
+      netIfWin = winBookie + winHedge;
 
-    // Poll TradingView live prices every 3 seconds in sync with the LED heartbeat
-    setInterval(fetchLiveTradingViewPrices, 3000);
+      loseBookie = 0; // Free Bet token lost costs £0 cash
+      loseHedge = hedgeStake * (1 - comm);
+      netIfLose = loseBookie + loseHedge;
+    } else {
+      // 2-Bookmaker Opposite Outcome Hedge for Free Bet
+      const effOdds2 = 1 + (layOdds - 1) * (1 - comm);
+      hedgeStake = effectiveBackReturn / Math.max(1.001, effOdds2);
+      liability = hedgeStake;
 
-    // Refresh Top 5 Risers & Live Crypto News every 25 seconds
-    setInterval(() => {
-      fetchTopRisingCryptosLive(false);
-      fetchLiveCryptoNewsFeeds(false);
-    }, 25000);
-  });
+      winBookie = effectiveBackReturn;
+      winHedge = -hedgeStake;
+      netIfWin = winBookie + winHedge;
+
+      loseBookie = 0;
+      loseHedge = hedgeStake * (effOdds2 - 1);
+      netIfLose = loseBookie + loseHedge;
+    }
+
+    const guaranteedProfit = (netIfWin + netIfLose) / 2;
+    const retentionPct = (guaranteedProfit / stake) * 100;
+
+    return {
+      stake,
+      backOdds,
+      layOdds,
+      commPct,
+      betType,
+      hedgeStake,
+      liability,
+      winBookie,
+      winHedge,
+      netIfWin,
+      loseBookie,
+      loseHedge,
+      netIfLose,
+      guaranteedProfit,
+      retentionPct
+    };
+  }
+
+  // Render All UI Elements
+  function updateAll() {
+    const q = calculateQualifyingBet();
+    const f = calculateFreeBet();
+
+    // Update Mode Labels
+    if (state.mode === 'exchange') {
+      els.qBackLabel.textContent = '2. Bookmaker Back Odds';
+      els.qLayLabel.textContent = '3. Exchange Lay Odds (Hedge)';
+      els.qCommLabel.textContent = '4. Exchange Commission %';
+      els.qActionTitle.textContent = 'PERFECT HEDGE LAY STAKE TO PLACE:';
+      els.qLiabilityLabel.textContent = 'Exchange Liability Needed';
+      els.qTableHedgeCol.textContent = 'Exchange Account';
+
+      els.fBackLabel.textContent = '2. Free Bet Back Odds';
+      els.fLayLabel.textContent = '3. Exchange Lay Odds (Hedge)';
+      els.fCommLabel.textContent = '4. Exchange Commission %';
+      els.fActionTitle.textContent = 'PERFECT FREE BET HEDGE LAY STAKE:';
+      els.fLiabilityLabel.textContent = 'Exchange Liability Needed';
+      els.fTableHedgeCol.textContent = 'Exchange Account';
+      els.matrixHedgeColTitle.textContent = 'Typical Tight Lay Odds';
+    } else {
+      els.qBackLabel.textContent = '2. Bookie 1 Odds (Outcome A)';
+      els.qLayLabel.textContent = '3. Bookie 2 Odds (Opposite B)';
+      els.qCommLabel.textContent = '4. Bookie 2 Fee / Tax %';
+      els.qActionTitle.textContent = 'BOOKIE 2 OPPOSITE HEDGE STAKE:';
+      els.qLiabilityLabel.textContent = 'Bookie 2 Cash Outlay';
+      els.qTableHedgeCol.textContent = 'Bookmaker 2 (Hedge)';
+
+      els.fBackLabel.textContent = '2. Bookie 1 Free Bet Odds (A)';
+      els.fLayLabel.textContent = '3. Bookie 2 Opposite Odds (B)';
+      els.fCommLabel.textContent = '4. Bookie 2 Fee %';
+      els.fActionTitle.textContent = 'BOOKIE 2 OPPOSITE HEDGE STAKE:';
+      els.fLiabilityLabel.textContent = 'Bookie 2 Cash Outlay';
+      els.fTableHedgeCol.textContent = 'Bookmaker 2 (Hedge)';
+      els.matrixHedgeColTitle.textContent = 'Bookie 2 Opposite Odds';
+    }
+
+    // ---------- Update Bet 1 (Qualifying Bet) ----------
+    els.qHedgeStake.textContent = fmtMoney(q.hedgeStake, false);
+    els.qLiability.textContent = fmtMoney(q.liability, false);
+
+    const qSmallText = fmtSmallUnit(q.guaranteedNet);
+    if (q.guaranteedNet < 0) {
+      els.qNetLoss.textContent = `${fmtMoney(q.guaranteedNet, true)} (${qSmallText} loss)`;
+      els.qRatingBadge.textContent = `${q.ratingPct.toFixed(1)}% MATCH • -${qSmallText} LOSS`;
+    } else {
+      els.qNetLoss.textContent = `${fmtMoney(q.guaranteedNet, true)} (Arb Profit!)`;
+      els.qRatingBadge.textContent = `${q.ratingPct.toFixed(1)}% MATCH • +${qSmallText} PROFIT`;
+    }
+
+    if (state.mode === 'exchange') {
+      els.qInstructionLine.innerHTML =
+        `Place <strong>${fmtMoney(q.stake)} Back</strong> at Bookmaker (odds <code>${q.backOdds.toFixed(2)}</code>) &amp; <strong>${fmtMoney(q.hedgeStake)} Lay</strong> at Exchange (odds <code>${q.layOdds.toFixed(2)}</code>).`;
+    } else {
+      els.qInstructionLine.innerHTML =
+        `Place <strong>${fmtMoney(q.stake)}</strong> on Outcome A at Bookie 1 (odds <code>${q.backOdds.toFixed(2)}</code>) &amp; <strong>${fmtMoney(q.hedgeStake)}</strong> on Opposite Outcome B at Bookie 2 (odds <code>${q.layOdds.toFixed(2)}</code>).`;
+    }
+
+    // Bet 1 Proof Table
+    els.qWinBookie.textContent = fmtMoney(q.winBookie, true);
+    els.qWinExchange.textContent = fmtMoney(q.winHedge, true);
+    els.qWinNet.textContent = fmtMoney(q.netIfWin, true);
+
+    els.qLoseBookie.textContent = fmtMoney(q.loseBookie, true);
+    els.qLoseExchange.textContent = fmtMoney(q.loseHedge, true);
+    els.qLoseNet.textContent = fmtMoney(q.netIfLose, true);
+
+    // Bet 1 Live Advisor
+    const lossFraction = Math.abs(q.guaranteedNet) / q.stake;
+    if (q.guaranteedNet >= 0) {
+      els.qAdvisor.className = 'smart-advisor-bar advisor-electric';
+      els.qAdvisorText.innerHTML =
+        `<strong>Zero-Loss Qualifying Bet (${q.ratingPct.toFixed(1)}%):</strong> You actually make <strong>${fmtMoney(q.guaranteedNet, true)}</strong> while unlocking your Free Bet!`;
+    } else if (lossFraction <= 0.035) {
+      els.qAdvisor.className = 'smart-advisor-bar advisor-good';
+      els.qAdvisorText.innerHTML =
+        `<strong>Textbook ~20p Qualifier (${q.ratingPct.toFixed(1)}% match):</strong> You only lose <strong>${qSmallText} (${fmtMoney(q.guaranteedNet, true)})</strong> to unlock your Free Bet. That is an ultra-tight hedge.`;
+    } else if (lossFraction <= 0.07) {
+      els.qAdvisor.className = 'smart-advisor-bar advisor-warn';
+      els.qAdvisorText.innerHTML =
+        `<strong>Acceptable Qualifier (${q.ratingPct.toFixed(1)}% match):</strong> Losing <strong>${fmtMoney(q.guaranteedNet, true)}</strong> is okay, but look for Lay odds closer to <code>${(q.backOdds + 0.02).toFixed(2)}</code> at lower odds (<code>1.50–2.10</code>) to get your loss down to ~20p.`;
+    } else {
+      els.qAdvisor.className = 'smart-advisor-bar advisor-warn';
+      els.qAdvisorText.innerHTML =
+        `<strong>High Qualifying Loss Warning (${fmtMoney(q.guaranteedNet, true)}):</strong> Your Back &amp; Hedge odds are too far apart. Switch to a match with low, tight odds (e.g. Back <code>2.00</code> / Lay <code>2.02</code>) so you only lose ~20p!`;
+    }
+
+    // ---------- Update Bet 2 (Free Bet Hedge) ----------
+    els.fHedgeStake.textContent = fmtMoney(f.hedgeStake, false);
+    els.fLiability.textContent = fmtMoney(f.liability, false);
+    els.fNetProfit.textContent = `${fmtMoney(f.guaranteedProfit, true)} (${f.retentionPct.toFixed(1)}%)`;
+    els.fRatingBadge.textContent = `${f.retentionPct.toFixed(1)}% GUARANTEED PROFIT`;
+
+    if (state.mode === 'exchange') {
+      els.fInstructionLine.innerHTML =
+        `Use <strong>${fmtMoney(f.stake)} Free Bet</strong> at Bookmaker (odds <code>${f.backOdds.toFixed(2)}</code>) &amp; place <strong>${fmtMoney(f.hedgeStake)} Lay</strong> at Exchange (odds <code>${f.layOdds.toFixed(2)}</code>).`;
+    } else {
+      els.fInstructionLine.innerHTML =
+        `Use <strong>${fmtMoney(f.stake)} Free Bet</strong> on Outcome A at Bookie 1 (odds <code>${f.backOdds.toFixed(2)}</code>) &amp; stake <strong>${fmtMoney(f.hedgeStake)} Cash</strong> on Opposite Outcome B at Bookie 2 (odds <code>${f.layOdds.toFixed(2)}</code>).`;
+    }
+
+    // Bet 2 Proof Table
+    els.fWinBookie.textContent = fmtMoney(f.winBookie, true);
+    els.fWinExchange.textContent = fmtMoney(f.winHedge, true);
+    els.fWinNet.textContent = fmtMoney(f.netIfWin, true);
+
+    els.fLoseBookie.textContent = `${state.currency}0.00 (Free Token)`;
+    els.fLoseExchange.textContent = fmtMoney(f.loseHedge, true);
+    els.fLoseNet.textContent = fmtMoney(f.netIfLose, true);
+
+    // Total Combined Net Profit
+    const totalNetProfit = q.guaranteedNet + f.guaranteedProfit;
+    const netRetentionAfterQual = (totalNetProfit / f.stake) * 100;
+
+    // Bet 2 Live Advisor
+    if (f.retentionPct >= 70) {
+      els.fAdvisor.className = 'smart-advisor-bar advisor-electric';
+      els.fAdvisorText.innerHTML =
+        `<strong>70%+ Guaranteed Profit Target Hit (${f.retentionPct.toFixed(1)}%):</strong> You lock in <strong>${fmtMoney(f.guaranteedProfit, true)}</strong> from the Free Bet alone, and <strong>${fmtMoney(totalNetProfit, true)} net profit</strong> after deducting Bet 1!`;
+    } else if (f.backOdds < 4.0 && state.mode === 'exchange') {
+      els.fAdvisor.className = 'smart-advisor-bar advisor-warn';
+      els.fAdvisorText.innerHTML =
+        `<strong>Odds Too Low for 70% Target (Currently ${f.retentionPct.toFixed(1)}%):</strong> Because SNR Free Bets don't return the stake, low odds (${f.backOdds.toFixed(2)}) reduce profit. Look for higher Back odds between <code>4.50</code> and <code>6.50</code> (e.g. Back <code>5.00</code> / Lay <code>5.20</code>) to hit <strong>75%+ guaranteed profit</strong>!`;
+    } else {
+      els.fAdvisor.className = 'smart-advisor-bar advisor-warn';
+      els.fAdvisorText.innerHTML =
+        `<strong>Below 70% Target (Currently ${f.retentionPct.toFixed(1)}%):</strong> Your hedge odds are too wide relative to your Back odds. Look for tighter Lay odds (or higher Back odds around <code>5.00 / 5.20</code>) to cross <strong>70%+ guaranteed profit</strong>.`;
+    }
+
+    // ---------- Update Master Campaign Banner ----------
+    els.masterQualResult.textContent = fmtMoney(q.guaranteedNet, true);
+    els.masterQualSub.textContent =
+      q.guaranteedNet < 0
+        ? `Only ${fmtSmallUnit(q.guaranteedNet)} cost to unlock Free Bet (${q.ratingPct.toFixed(1)}% match)`
+        : `Zero qualifying loss (${q.ratingPct.toFixed(1)}% match)`;
+
+    els.masterFreeProfit.textContent = fmtMoney(f.guaranteedProfit, true);
+    els.masterFreeSub.textContent = `${f.retentionPct.toFixed(1)}% guaranteed Free Bet extraction either way`;
+
+    els.masterNetProfit.textContent = fmtMoney(totalNetProfit, true);
+    els.masterNetSub.textContent = `${netRetentionAfterQual.toFixed(1)}% net profit of Free Bet after Bet 1 qualifier!`;
+
+    els.masterRetentionPct.textContent = `${f.retentionPct.toFixed(1)}%`;
+    const clampedWidth = Math.max(5, Math.min(100, f.retentionPct));
+    els.masterProgressFill.style.width = `${clampedWidth}%`;
+
+    if (f.retentionPct >= 70) {
+      els.masterTargetBadge.textContent = '✔ 70%+ TARGET LOCKED';
+      els.masterTargetBadge.className = 'gauge-badge';
+    } else {
+      els.masterTargetBadge.textContent = '▲ AIM FOR 4.50+ ODDS';
+      els.masterTargetBadge.className = 'gauge-badge warn-tone';
+    }
+
+    const totalHedgeCapital = q.stake + q.liability + f.liability;
+    els.masterCapitalNeeded.innerHTML =
+      `Bet 1 Liability: <strong>${fmtMoney(q.liability)}</strong> &bull; Bet 2 Liability: <strong>${fmtMoney(f.liability)}</strong> (Total: <strong>${fmtMoney(totalHedgeCapital)}</strong>)`;
+
+    // Update Simulator Table
+    renderOddsSimulatorMatrix(f.stake, f.commPct, q.guaranteedNet);
+  }
+
+  // Render Live Odds vs Profit Simulator Table
+  function renderOddsSimulatorMatrix(freeStake, commPct, qualNet) {
+    els.simFreeStakeLabel.textContent = fmtMoney(freeStake, false);
+    els.simCommLabel.textContent = `${commPct.toFixed(1)}%`;
+
+    const comm = commPct / 100;
+    const sampleTiers = state.mode === 'exchange'
+      ? [
+          { back: 2.00, lay: 2.04, note: 'Too Low (Avoid for Free Bet)' },
+          { back: 3.00, lay: 3.10, note: 'Below 70% Target' },
+          { back: 4.00, lay: 4.15, note: 'Borderline (~70%)' },
+          { back: 4.50, lay: 4.65, note: '70%+ Sweet Spot', sweet: true },
+          { back: 5.00, lay: 5.20, note: '75% Optimal Target', sweet: true },
+          { back: 6.00, lay: 6.25, note: '78% High Extraction', sweet: true },
+          { back: 7.50, lay: 7.85, note: '80%+ Max Profit (High Liab)', sweet: true }
+        ]
+      : [
+          { back: 2.00, lay: 1.95, note: 'Too Low (Avoid for Free Bet)' },
+          { back: 3.00, lay: 1.47, note: 'Below 70% Target' },
+          { back: 4.00, lay: 1.32, note: '70%+ Sweet Spot', sweet: true },
+          { back: 4.50, lay: 1.27, note: '74% Optimal Target', sweet: true },
+          { back: 5.00, lay: 1.23, note: '76% High Extraction', sweet: true },
+          { back: 6.00, lay: 1.18, note: '79% Max Profit', sweet: true }
+        ];
+
+    const rowsHtml = sampleTiers.map((tier) => {
+      let hedgeStake = 0;
+      let liability = 0;
+      let profit = 0;
+
+      if (state.mode === 'exchange') {
+        const denom = Math.max(0.01, tier.lay - comm);
+        hedgeStake = (freeStake * (tier.back - 1)) / denom;
+        liability = hedgeStake * (tier.lay - 1);
+        profit = hedgeStake * (1 - comm);
+      } else {
+        const effOdds2 = 1 + (tier.lay - 1) * (1 - comm);
+        hedgeStake = (freeStake * (tier.back - 1)) / effOdds2;
+        liability = hedgeStake;
+        profit = hedgeStake * (effOdds2 - 1);
+      }
+
+      const retention = (profit / freeStake) * 100;
+      const combinedNet = profit + qualNet;
+      const badgeClass = retention >= 70 ? 'badge-sweet' : 'badge-low';
+
+      return `
+        <tr class="${tier.sweet ? 'matrix-row-sweetspot' : ''}">
+          <td><strong>${tier.back.toFixed(2)}</strong></td>
+          <td>${tier.lay.toFixed(2)}</td>
+          <td>${fmtMoney(hedgeStake)}</td>
+          <td>${fmtMoney(liability)}</td>
+          <td class="pos-val"><strong>${fmtMoney(profit, true)}</strong></td>
+          <td><strong>${retention.toFixed(1)}%</strong></td>
+          <td class="pos-val">${fmtMoney(combinedNet, true)}</td>
+          <td>
+            <span class="matrix-badge ${badgeClass}">${tier.note}</span>
+            <button type="button" class="btn-load-row" data-sim-back="${tier.back}" data-sim-lay="${tier.lay}">
+              Load
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    els.oddsMatrixBody.innerHTML = rowsHtml;
+
+    // Attach click listeners to "Load" buttons in matrix
+    els.oddsMatrixBody.querySelectorAll('.btn-load-row').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        els.fBackOdds.value = parseFloat(btn.dataset.simBack).toFixed(2);
+        els.fLayOdds.value = parseFloat(btn.dataset.simLay).toFixed(2);
+        updateAll();
+      });
+    });
+  }
+
+  // Odds Converter Utilities
+  function decimalToFractional(dec) {
+    if (dec <= 1.01) return '1/100';
+    const val = dec - 1;
+    const commonDenoms = [1, 2, 4, 5, 8, 10, 20, 25, 50, 100];
+    for (const d of commonDenoms) {
+      const n = val * d;
+      if (Math.abs(n - Math.round(n)) < 0.015) {
+        return `${Math.round(n)}/${d}`;
+      }
+    }
+    return `${Math.round(val * 100)}/100`;
+  }
+
+  function decimalToAmerican(dec) {
+    if (dec >= 2.0) {
+      return `+${Math.round((dec - 1) * 100)}`;
+    }
+    return `${Math.round(-100 / Math.max(0.01, dec - 1))}`;
+  }
+
+  function setupOddsConverter() {
+    els.convFrac.addEventListener('input', () => {
+      const parts = els.convFrac.value.trim().split('/');
+      if (parts.length === 2) {
+        const num = parseFloat(parts[0]);
+        const den = parseFloat(parts[1]);
+        if (num > 0 && den > 0) {
+          const dec = 1 + num / den;
+          els.convDec.value = dec.toFixed(2);
+          els.convAmer.value = decimalToAmerican(dec);
+        }
+      }
+    });
+
+    els.convDec.addEventListener('input', () => {
+      const dec = parseFloat(els.convDec.value);
+      if (dec > 1.0) {
+        els.convFrac.value = decimalToFractional(dec);
+        els.convAmer.value = decimalToAmerican(dec);
+      }
+    });
+
+    els.convAmer.addEventListener('input', () => {
+      const raw = parseFloat(els.convAmer.value.replace('+', ''));
+      if (!isNaN(raw) && raw !== 0) {
+        const dec = raw > 0 ? 1 + raw / 100 : 1 + 100 / Math.abs(raw);
+        if (dec > 1.0) {
+          els.convDec.value = dec.toFixed(2);
+          els.convFrac.value = decimalToFractional(dec);
+        }
+      }
+    });
+
+    els.applyConvBet2.addEventListener('click', () => {
+      const dec = parseFloat(els.convDec.value);
+      if (dec > 1.05) {
+        els.fBackOdds.value = dec.toFixed(2);
+        if (state.mode === 'exchange') {
+          els.fLayOdds.value = (dec + 0.2).toFixed(2);
+        } else {
+          // Implied opposite outcome odds with ~3% bookie margin
+          const p1 = 1 / dec;
+          const p2 = Math.max(0.1, 1.03 - p1);
+          els.fLayOdds.value = (1 / p2).toFixed(2);
+        }
+        updateAll();
+      }
+    });
+  }
+
+  // Presets Configuration
+  const PRESETS = {
+    bet10get10: {
+      qStake: 10.00, qBack: 2.00, qLay: 2.02, qComm: 1.0,
+      fStake: 10.00, fBack: 5.00, fLay: 5.20, fComm: 2.0
+    },
+    bet10get30: {
+      qStake: 10.00, qBack: 2.00, qLay: 2.02, qComm: 1.0,
+      fStake: 30.00, fBack: 5.00, fLay: 5.20, fComm: 2.0
+    },
+    bet20get20: {
+      qStake: 20.00, qBack: 1.90, qLay: 1.92, qComm: 1.0,
+      fStake: 20.00, fBack: 5.00, fLay: 5.20, fComm: 2.0
+    },
+    high78: {
+      qStake: 10.00, qBack: 1.80, qLay: 1.82, qComm: 0.0,
+      fStake: 10.00, fBack: 6.00, fLay: 6.20, fComm: 2.0
+    }
+  };
+
+  function applyPreset(presetKey) {
+    const p = PRESETS[presetKey];
+    if (!p) return;
+
+    state.mode = 'exchange';
+    els.modeExchangeBtn.classList.add('active');
+    els.modeDutchBtn.classList.remove('active');
+
+    els.qStake.value = p.qStake.toFixed(2);
+    els.qBackOdds.value = p.qBack.toFixed(2);
+    els.qLayOdds.value = p.qLay.toFixed(2);
+    els.qComm.value = p.qComm.toFixed(1);
+
+    els.fStake.value = p.fStake.toFixed(2);
+    els.fBackOdds.value = p.fBack.toFixed(2);
+    els.fLayOdds.value = p.fLay.toFixed(2);
+    els.fComm.value = p.fComm.toFixed(1);
+    els.fType.value = 'SNR';
+
+    updateAll();
+  }
+
+  // Initialize Event Listeners
+  function init() {
+    // Live calculation inputs
+    [
+      els.qStake, els.qBackOdds, els.qLayOdds, els.qComm,
+      els.fStake, els.fBackOdds, els.fLayOdds, els.fComm, els.fType
+    ].forEach((input) => {
+      input.addEventListener('input', updateAll);
+      input.addEventListener('change', updateAll);
+    });
+
+    // Mode Switcher (Exchange vs 2-Bookmaker Dutching)
+    els.modeExchangeBtn.addEventListener('click', () => {
+      if (state.mode === 'exchange') return;
+      state.mode = 'exchange';
+      els.modeExchangeBtn.classList.add('active');
+      els.modeDutchBtn.classList.remove('active');
+
+      // Set typical Exchange Lay defaults
+      els.qBackOdds.value = '2.00';
+      els.qLayOdds.value = '2.02';
+      els.qComm.value = '1.0';
+      els.fBackOdds.value = '5.00';
+      els.fLayOdds.value = '5.20';
+      els.fComm.value = '2.0';
+      updateAll();
+    });
+
+    els.modeDutchBtn.addEventListener('click', () => {
+      if (state.mode === 'dutch') return;
+      state.mode = 'dutch';
+      els.modeDutchBtn.classList.add('active');
+      els.modeExchangeBtn.classList.remove('active');
+
+      // Set typical 2-Bookmaker Opposite Outcome defaults (e.g. 1.98 vs 1.98 for Bet 1, and 4.50 vs 1.27 for Bet 2)
+      els.qBackOdds.value = '1.98';
+      els.qLayOdds.value = '1.98';
+      els.qComm.value = '0.0';
+      els.fBackOdds.value = '4.50';
+      els.fLayOdds.value = '1.27';
+      els.fComm.value = '0.0';
+      updateAll();
+    });
+
+    // Currency Switcher
+    els.currBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        els.currBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.currency = btn.dataset.currency;
+        els.currPrefixes.forEach((prefix) => {
+          prefix.textContent = state.currency;
+        });
+        updateAll();
+      });
+    });
+
+    // Preset Chips
+    els.presetChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        els.presetChips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyPreset(chip.dataset.preset);
+      });
+    });
+
+    // Quick Odds Nudge Buttons for Bet 1
+    document.querySelectorAll('.nudge-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.mode = 'exchange';
+        els.modeExchangeBtn.classList.add('active');
+        els.modeDutchBtn.classList.remove('active');
+        els.qBackOdds.value = parseFloat(btn.dataset.qBack).toFixed(2);
+        els.qLayOdds.value = parseFloat(btn.dataset.qLay).toFixed(2);
+        els.qComm.value = parseFloat(btn.dataset.qComm).toFixed(1);
+        updateAll();
+      });
+    });
+
+    // Quick Odds Nudge Buttons for Bet 2
+    document.querySelectorAll('.nudge-btn-free').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.mode = 'exchange';
+        els.modeExchangeBtn.classList.add('active');
+        els.modeDutchBtn.classList.remove('active');
+        els.fBackOdds.value = parseFloat(btn.dataset.fBack).toFixed(2);
+        els.fLayOdds.value = parseFloat(btn.dataset.fLay).toFixed(2);
+        updateAll();
+      });
+    });
+
+    // Copy Hedge Stake Buttons
+    document.querySelectorAll('.btn-copy').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.dataset.copyTarget;
+        const targetEl = document.getElementById(targetId);
+        if (!targetEl) return;
+        const numericOnly = targetEl.textContent.replace(/[^0-9.]/g, '');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(numericOnly);
+        }
+        const origText = btn.textContent;
+        btn.textContent = `Copied ${numericOnly}!`;
+        setTimeout(() => {
+          btn.textContent = origText;
+        }, 1400);
+      });
+    });
+
+    setupOddsConverter();
+    updateAll();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
 })();

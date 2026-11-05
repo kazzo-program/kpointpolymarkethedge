@@ -1,33 +1,22 @@
-# KPOINTCRYPTOGLANCE // 5-Crypto Live TradingView Terminal (`BTC` • `ETH` • `SOL` • `HYPE` • `XRP`)
+# KPOINT HEDGE // Free Bet & Qualifying Bet Perfect Hedge Terminal
 
-> **Pitch-Black Cyber LED Interface // 3.0-Second Synchronized LED Glow // Direct Live TradingView Prices for BTC, ETH, SOL, HYPE & XRP // Live Crypto News Wire // Top 5 Highest Rising Cryptos (Week, Month & Year) // "Kpoint made this one!"**
-
----
-
-## ⚡ Core Architecture & Features
-
-### 1. Dedicated Sections for the 5 Core Cryptocurrencies (`BTC`, `ETH`, `SOL`, `HYPE`, `XRP`)
-- **Section 01 — Bitcoin (`BTC`)**: Live price & multi-timeframe metrics directly from `BINANCE:BTCUSDT` / `BITSTAMP:BTCUSD` on TradingView + embedded interactive TradingView chart.
-- **Section 02 — Ethereum (`ETH`)**: Live price & multi-timeframe metrics directly from `BINANCE:ETHUSDT` on TradingView + embedded interactive TradingView chart.
-- **Section 03 — Solana (`SOL`)**: Live price & multi-timeframe metrics directly from `BINANCE:SOLUSDT` on TradingView + embedded interactive TradingView chart.
-- **Section 04 — Hyperliquid (`HYPE`)**: Live price & multi-timeframe metrics directly from `BYBIT:HYPEUSDT` / `OKX:HYPEUSDT` on TradingView + embedded interactive TradingView chart.
-- **Section 05 — Ripple (`XRP`)**: Live price & multi-timeframe metrics directly from `BINANCE:XRPUSDT` on TradingView + embedded interactive TradingView chart.
-
-### 2. Pitch-Black Interface with 3-Second Glowing LED Outline
-- Built on a pitch-black (`#000000`) chassis wrapped in a full perimeter **LED Outline Frame** with 4 corner LED nodes and 48 top/bottom LED diodes.
-- **Every 3.0 seconds**, the LED perimeter and all section borders burst with a synchronized neon glow (`led-pulse-active`) with 3 selectable LED colors: *Matrix Emerald*, *Neon Magenta*, and *Solar Amber*.
-
-### 3. Live Crypto News Sidebar
-- Located on the right side of the terminal (`#live-crypto-news-sidebar`), pulling real-time crypto headlines directly from public crypto news feeds (**CryptoCompare News API**, **CoinDesk**, **CoinTelegraph**, **Decrypt**).
-- Includes instant one-click filter pills for `ALL`, `BTC`, `ETH`, `SOL`, `HYPE`, `XRP`, and `RISERS`, plus a live keyword search bar.
-
-### 4. Top 5 Highest Rising Cryptocurrencies of the Week, Month & Year
-- Dedicated 3-column leaderboard (`#top-risers-section`) displaying:
-  - **🔥 Top 5 Rising — This Week (7D)** (`Perf.W`)
-  - **⚡ Top 5 Rising — This Month (30D)** (`Perf.1M`)
-  - **👑 Top 5 Rising — This Year (365D / 1Y)** (`Perf.Y`)
-- Dynamically sorted from live TradingView Crypto Scanner performance metrics and paired with the latest crypto news catalyst driving each coin's rally.
+> **Black & Electric Blue Interface // 2-Bet Matched Hedging Calculator // Lose ~20p on Bet 1 (Qualifying Bet) // Guarantee 70%–80% Profit on Bet 2 (Free Bet SNR) // Complete Odds Strategy Playbook**
 
 ---
 
-*Kpoint made this one!*
+## ⚡ Core Features
+
+1. **Dual-Bet Matched Hedging System (Bet 1 + Bet 2)**:
+   - **Bet 1 — Qualifying Bet Calculator**: Calculates the exact Hedge Stake so your qualifying cash bet loses only around **20p (`-£0.20`)** regardless of the match outcome, unlocking your bookmaker Free Bet.
+   - **Bet 2 — Free Bet Hedge Calculator (SNR & SR)**: Calculates the exact Hedge Stake for your Free Bet (Stake Not Returned) so you lock in **70%–80% guaranteed profit** no matter who wins.
+   - **Master Combined Campaign Dashboard**: Live summary showing Step 1 Qualifying Cost (`-£0.20`) + Step 2 Free Bet Profit (`+£7.57`) = **Total Guaranteed Net Cash Profit (`+£7.37` / `73.7%` net)**.
+
+2. **Supports Both Hedging Methods**:
+   - **Exchange Lay Mode (Back vs. Lay)**: Bookmaker Back bet vs. Betting Exchange Lay bet (Betfair, Smarkets, Matchbook) with customizable exchange commission %.
+   - **2-Bookmaker Hedge Mode (Bet A vs. Bet B)**: Hedge across two regular sportsbooks on opposite outcomes (no exchange required).
+
+3. **Built-in User Instructions & Live Smart Odds Advisor**:
+   - Explains **what odds to look for** on both bets:
+     - **Bet 1 (Qualifying Bet)**: Look for **LOW odds (`1.50` to `2.20`)** with tight Lay/Hedge odds (`0.02` spread, e.g., `2.00 / 2.02`) to keep qualifying loss around **20p** and minimise liability.
+     - **Bet 2 (Free Bet SNR)**: Look for **HIGH odds (`4.50` to `7.00`)** with tight Lay/Hedge odds (e.g., `5.00 / 5.20`) to guarantee **70%–80% cash retention**.
+   - Includes a live **Free Bet Odds vs. Profit Matrix** showing how odds selection directly controls your guaranteed profit percentage.

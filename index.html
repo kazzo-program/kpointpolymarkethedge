@@ -3,362 +3,609 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KPOINTCRYPTOGLANCE // 5-Crypto Live TradingView Terminal (BTC • ETH • SOL • HYPE • XRP)</title>
-  <meta name="description" content="KPOINTCRYPTOGLANCE — Pitch-Black Cyber LED Crypto Terminal featuring dedicated live TradingView price sections for BTC, ETH, SOL, HYPE, and XRP, 3-second synchronized LED pulse, live Crypto News sidebar, and Top 5 Highest Rising Cryptocurrencies of the Week, Month, and Year." />
+  <title>KPOINT HEDGE // Free Bet &amp; Qualifying Bet 70%+ Profit Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
-<body class="led-terminal-body">
+<body>
+  <!-- Ambient Electric Blue Glow Backdrop -->
+  <div class="bg-grid-overlay" aria-hidden="true"></div>
+  <div class="bg-blue-radial" aria-hidden="true"></div>
 
-  <!-- =====================================================================
-       OUTER PITCH-BLACK CHASSIS WITH 3-SECOND PULSING LED PERIMETER & NODES
-       ===================================================================== -->
-  <div class="led-chassis-frame" id="led-chassis-frame">
-    <!-- Corner & Perimeter LED Bulb Nodes -->
-    <div class="led-corner-bulb top-left"></div>
-    <div class="led-corner-bulb top-right"></div>
-    <div class="led-corner-bulb bottom-left"></div>
-    <div class="led-corner-bulb bottom-right"></div>
-
-    <!-- Top & Bottom Animated LED Light Strip -->
-    <div class="led-light-strip top-strip" id="led-top-strip">
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-    </div>
-
-    <!-- ===================================================================
-         OFFICIAL LIVE TRADINGVIEW TICKER TAPE (BTC, ETH, SOL, HYPE, XRP)
-         =================================================================== -->
-    <div class="tv-tape-bar">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-        {
-          "symbols": [
-            { "proName": "BINANCE:BTCUSDT", "title": "BTC / USDT (TradingView Live)" },
-            { "proName": "BINANCE:ETHUSDT", "title": "ETH / USDT (TradingView Live)" },
-            { "proName": "BINANCE:SOLUSDT", "title": "SOL / USDT (TradingView Live)" },
-            { "proName": "BYBIT:HYPEUSDT", "title": "HYPE / USDT (Hyperliquid Live)" },
-            { "proName": "BINANCE:XRPUSDT", "title": "XRP / USDT (TradingView Live)" }
-          ],
-          "showSymbolLogo": true,
-          "isTransparent": true,
-          "displayMode": "adaptive",
-          "colorTheme": "dark",
-          "locale": "en"
-        }
-        </script>
-      </div>
-    </div>
-
-    <!-- ===================================================================
-         TOP COMMAND HEADER WITH 3-SECOND LED HEARTBEAT CONTROLS
-         =================================================================== -->
-    <header class="cyber-header led-box">
-      <div class="header-left">
-        <div class="brand-emblem" id="brand-emblem-pulse">
-          <span class="emblem-core">KP</span>
-          <span class="emblem-ring"></span>
+  <!-- Top Navigation & Mode Header -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-block">
+        <div class="brand-logo">
+          <span class="logo-pulse"></span>
+          <span class="logo-code">KP//HEDGE</span>
         </div>
         <div class="brand-titles">
-          <div class="brand-row">
-            <h1>KPOINTCRYPTOGLANCE</h1>
-            <span class="led-badge-cyan">TRADINGVIEW DIRECT FEED</span>
-            <span class="led-badge-green" id="pulse-indicator-pill">
-              <span class="led-bulb-dot" id="pulse-bulb-dot"></span>
-              3.0s LED PULSE
-            </span>
-          </div>
-          <p class="brand-subtitle">
-            Live Real-Time Prices Directly from <strong>TradingView (`scanner.tradingview.com`)</strong> for <strong>BTC • ETH • SOL • HYPE • XRP</strong> + Live Crypto News &amp; Top 5 Risers
-          </p>
+          <h1>FREE BET PERFECT HEDGE TERMINAL</h1>
+          <p class="brand-subtitle">2-Bet Matched Hedging System &bull; Lose ~20p on Bet 1 &bull; Lock In 70%&ndash;80% Guaranteed Profit on Bet 2</p>
         </div>
       </div>
 
-      <!-- 3-Second Pulse Countdown Bar & Controls -->
-      <div class="header-right">
-        <div class="led-heartbeat-monitor">
-          <div class="hb-top-row">
-            <span class="hb-label">LED GLOW CYCLE:</span>
-            <span class="hb-timer" id="pulse-countdown-text">3.0s</span>
-          </div>
-          <div class="hb-progress-track">
-            <div class="hb-progress-fill" id="pulse-progress-fill"></div>
-          </div>
-          <div class="hb-sub-row">
-            <span id="tv-sync-status">TradingView API: LIVE STREAMING</span>
-            <span id="utc-clock">00:00:00 UTC</span>
+      <div class="topbar-controls">
+        <!-- Hedging Method Switcher -->
+        <div class="control-group" role="group" aria-label="Hedging Method">
+          <span class="control-label">HEDGE METHOD</span>
+          <div class="segmented-pills-blue">
+            <button type="button" class="seg-btn active" id="mode-exchange-btn" data-mode="exchange">
+              Exchange Lay (Back vs Lay)
+            </button>
+            <button type="button" class="seg-btn" id="mode-dutch-btn" data-mode="dutch">
+              2-Bookie Hedge (Bet A vs Bet B)
+            </button>
           </div>
         </div>
 
-        <div class="header-control-btns">
-          <div class="led-color-picker" title="Switch LED Glow Color">
-            <button class="color-dot active" data-theme="emerald" onclick="setLedColorTheme('emerald', this)" style="--dot-color:#00ff88;" title="Matrix Emerald LED"></button>
-            <button class="color-dot" data-theme="magenta" onclick="setLedColorTheme('magenta', this)" style="--dot-color:#ff00ea;" title="Neon Magenta LED"></button>
-            <button class="color-dot" data-theme="amber" onclick="setLedColorTheme('amber', this)" style="--dot-color:#ffae00;" title="Solar Amber LED"></button>
+        <!-- Currency Switcher -->
+        <div class="control-group" role="group" aria-label="Currency">
+          <span class="control-label">CURRENCY</span>
+          <div class="segmented-pills-blue">
+            <button type="button" class="curr-btn active" data-currency="£">£ GBP</button>
+            <button type="button" class="curr-btn" data-currency="$">$ USD</button>
+            <button type="button" class="curr-btn" data-currency="€">€ EUR</button>
           </div>
+        </div>
 
-          <button class="led-btn led-btn-sync" onclick="manualSyncAll()">
-            <span id="sync-icon">↻</span>
-            <span>Sync TradingView &amp; News</span>
+        <!-- Quick Jump to Instructions -->
+        <a href="#strategy-playbook" class="btn-outline-blue">
+          <span>📘 What Odds to Look For</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Presets & Quick Odds Converter Strip -->
+    <section class="utility-strip" aria-label="Preset Offers and Odds Converter">
+      <div class="presets-bar">
+        <span class="strip-title">⚡ LOAD PROMO PRESET:</span>
+        <button type="button" class="preset-chip active" data-preset="bet10get10">
+          Bet £10 Get £10 Free (Lose 20p &rarr; +£7.34 Net)
+        </button>
+        <button type="button" class="preset-chip" data-preset="bet10get30">
+          Bet £10 Get £30 Free (Lose 20p &rarr; +£22.41 Net)
+        </button>
+        <button type="button" class="preset-chip" data-preset="bet20get20">
+          Bet £20 Get £20 Free (Lose 39p &rarr; +£14.68 Net)
+        </button>
+        <button type="button" class="preset-chip" data-preset="high78">
+          High-Odds 78% Sniper (Odds 6.0 / 6.2)
+        </button>
+      </div>
+
+      <!-- Inline Fractional / American / Decimal Converter -->
+      <div class="converter-bar">
+        <span class="strip-title">🔄 ODDS CONVERTER:</span>
+        <div class="conv-inputs">
+          <label class="conv-field">
+            <span>Fractional</span>
+            <input type="text" id="conv-frac" value="4/1" placeholder="e.g. 4/1" />
+          </label>
+          <span class="conv-eq">=</span>
+          <label class="conv-field">
+            <span>Decimal</span>
+            <input type="number" id="conv-dec" value="5.00" step="0.01" min="1.01" />
+          </label>
+          <span class="conv-eq">=</span>
+          <label class="conv-field">
+            <span>American</span>
+            <input type="text" id="conv-amer" value="+400" placeholder="+400" />
+          </label>
+          <button type="button" class="btn-mini-blue" id="apply-conv-bet2" title="Send Decimal Odds to Bet 2 (Free Bet)">
+            Use in Bet 2 &rarr;
           </button>
         </div>
       </div>
-    </header>
+    </section>
 
-    <!-- ===================================================================
-         QUICK NAVIGATION BAR FOR THE 5 CRYPTO SECTIONS + RISERS + CHART
-         =================================================================== -->
-    <nav class="crypto-quick-nav led-box">
-      <div class="quick-nav-left">
-        <span class="nav-prefix">JUMP TO CRYPTO SECTION:</span>
-        <button class="crypto-nav-pill active" onclick="scrollToCryptoSection('ALL', this)">
-          <span>⚡ ALL 5 CRYPTOS</span>
-        </button>
-        <button class="crypto-nav-pill" onclick="scrollToCryptoSection('BTC', this)">
-          <span class="c-dot btc-dot"></span>
-          <span>1. BITCOIN (BTC)</span>
-          <strong class="nav-live-price" data-nav-price="BTC">$—</strong>
-        </button>
-        <button class="crypto-nav-pill" onclick="scrollToCryptoSection('ETH', this)">
-          <span class="c-dot eth-dot"></span>
-          <span>2. ETHEREUM (ETH)</span>
-          <strong class="nav-live-price" data-nav-price="ETH">$—</strong>
-        </button>
-        <button class="crypto-nav-pill" onclick="scrollToCryptoSection('SOL', this)">
-          <span class="c-dot sol-dot"></span>
-          <span>3. SOLANA (SOL)</span>
-          <strong class="nav-live-price" data-nav-price="SOL">$—</strong>
-        </button>
-        <button class="crypto-nav-pill" onclick="scrollToCryptoSection('HYPE', this)">
-          <span class="c-dot hype-dot"></span>
-          <span>4. HYPERLIQUID (HYPE)</span>
-          <strong class="nav-live-price" data-nav-price="HYPE">$—</strong>
-        </button>
-        <button class="crypto-nav-pill" onclick="scrollToCryptoSection('XRP', this)">
-          <span class="c-dot xrp-dot"></span>
-          <span>5. RIPPLE (XRP)</span>
-          <strong class="nav-live-price" data-nav-price="XRP">$—</strong>
-        </button>
+    <!-- Combined 2-Bet Campaign Master Dashboard -->
+    <section class="campaign-master-banner" aria-label="Combined 2-Bet Profit Summary">
+      <div class="campaign-summary-grid">
+        <div class="summary-metric-card">
+          <div class="metric-tag">STEP 1 &bull; QUALIFYING BET RESULT</div>
+          <div class="metric-value loss-tone" id="master-qual-result">-£0.20</div>
+          <div class="metric-sub" id="master-qual-sub">Only ~20p cost to unlock Free Bet (98.0% rating)</div>
+        </div>
+
+        <div class="summary-operator">+</div>
+
+        <div class="summary-metric-card">
+          <div class="metric-tag">STEP 2 &bull; FREE BET HEDGE PROFIT</div>
+          <div class="metric-value profit-tone" id="master-free-profit">+£7.54</div>
+          <div class="metric-sub" id="master-free-sub">75.4% guaranteed extraction regardless of winner</div>
+        </div>
+
+        <div class="summary-operator">=</div>
+
+        <div class="summary-metric-card highlight-blue-card">
+          <div class="metric-tag">TOTAL GUARANTEED NET PROFIT (BET 1 + BET 2)</div>
+          <div class="metric-value hero-profit" id="master-net-profit">+£7.34</div>
+          <div class="metric-sub" id="master-net-sub">73.4% net profit of Free Bet after deducting 20p qualifier!</div>
+        </div>
+
+        <div class="summary-gauge-card">
+          <div class="gauge-header">
+            <span class="gauge-label">FREE BET PROFIT RETENTION</span>
+            <span class="gauge-badge" id="master-target-badge">✔ 70%+ TARGET HIT</span>
+          </div>
+          <div class="gauge-pct-row">
+            <span class="gauge-big-pct" id="master-retention-pct">75.4%</span>
+            <span class="gauge-target-note">Target: &ge; 70.0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-target-marker" style="left: 70%;" title="70% Target Line"></div>
+            <div class="progress-fill" id="master-progress-fill" style="width: 75.4%;"></div>
+          </div>
+          <div class="gauge-footer" id="master-capital-needed">
+            Total Hedge Balance Needed: <strong>£41.91</strong>
+          </div>
+        </div>
       </div>
-      <div class="quick-nav-right">
-        <button class="crypto-nav-pill risers-jump-btn" onclick="document.getElementById('top-risers-section').scrollIntoView({behavior:'smooth'})">
-          <span>🚀 Top 5 Risers (Week • Month • Year)</span>
-        </button>
-      </div>
-    </nav>
+    </section>
 
-    <!-- ===================================================================
-         MAIN WORKSPACE GRID:
-         LEFT/CENTER: 5 Dedicated Crypto Sections + Interactive TV Chart + Top 5 Risers
-         RIGHT SIDEBAR: Live Real-Time Crypto News Wire
-         =================================================================== -->
-    <div class="terminal-workspace-grid">
+    <!-- Dual Bet Calculators Grid (Bet 1: Qualifying Bet & Bet 2: Free Bet Hedge) -->
+    <section class="calculators-grid" aria-label="Two-Bet Hedge Calculators">
+      
+      <!-- ==================== BET 1: QUALIFYING BET ==================== -->
+      <article class="bet-card" id="bet1-card">
+        <div class="bet-card-header">
+          <div class="step-pill step-1-pill">BET 01 // QUALIFYING BET</div>
+          <div class="bet-rating-badge" id="q-rating-badge">98.0% MATCH &bull; -20p LOSS</div>
+        </div>
 
-      <!-- =================================================================
-           PRIMARY COLUMN: 5 CRYPTO SECTIONS + TOP 5 HIGHEST RISING CRYPTOS
-           ================================================================= -->
-      <main class="terminal-main-column">
+        <div class="bet-card-title-row">
+          <h2>Qualifying Bet Hedge <span class="text-blue">(Unlock the Free Bet)</span></h2>
+          <p class="bet-card-desc">
+            Goal: Place your required cash bet to trigger the promo while hedging the opposite side so you only lose around <strong>20p (£0.20)</strong> no matter who wins.
+          </p>
+        </div>
 
-        <!-- 1. DEDICATED 5 CRYPTOCURRENCY SECTIONS (BTC, ETH, SOL, HYPE, XRP) -->
-        <section class="five-cryptos-master-section" id="five-cryptos-master-section">
-          <div class="section-banner-header">
-            <div>
-              <div class="section-eyebrow">
-                <span class="led-indicator-dot"></span>
-                <span>DIRECT TRADINGVIEW SCANNER API + EMBEDDED TRADINGVIEW CHARTS</span>
-              </div>
-              <h2>THE 5 CORE CRYPTOCURRENCY SECTIONS (BTC • ETH • SOL • HYPE • XRP)</h2>
-            </div>
-            <div class="section-banner-meta">
-              <span class="meta-chip">Source: <code>scanner.tradingview.com/crypto/scan</code></span>
-              <span class="meta-chip" id="last-tv-tick-time">Syncing TradingView...</span>
+        <!-- Quick Strategy Callout inside Bet 1 -->
+        <div class="mini-rule-box">
+          <div class="mini-rule-icon">🎯</div>
+          <div class="mini-rule-text">
+            <strong>What Odds to Look For on Bet 1:</strong> Look for <strong>LOW odds (1.50 to 2.20)</strong> that meet the bookie's minimum odds rule, with <strong>Hedge Lay odds as close as possible</strong> (within <code>0.02</code>&ndash;<code>0.05</code>, e.g. Back <code>2.00</code> / Lay <code>2.02</code>).
+          </div>
+        </div>
+
+        <!-- Bet 1 Form Inputs -->
+        <div class="inputs-grid">
+          <div class="input-box">
+            <label for="q-stake">
+              <span>1. Bookmaker Qualifying Stake</span>
+              <span class="input-hint">Cash stake required</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="curr-prefix">£</span>
+              <input type="number" id="q-stake" value="10.00" min="0.5" step="0.5" />
             </div>
           </div>
 
-          <!-- Container where the 5 dedicated Crypto Sections are rendered -->
-          <div class="five-crypto-sections-stack" id="five-crypto-sections-container">
-            <!-- Dynamically populated by app.js with dedicated TradingView sections for BTC, ETH, SOL, HYPE, XRP -->
-          </div>
-        </section>
-
-        <!-- 2. FULL-WIDTH MASTER INTERACTIVE TRADINGVIEW ADVANCED TERMINAL -->
-        <section class="master-tv-chart-section led-box" id="master-tv-chart-section">
-          <div class="master-chart-header">
-            <div>
-              <span class="section-eyebrow">INTERACTIVE TRADINGVIEW PRO CHART</span>
-              <h3 id="master-chart-title">BINANCE:BTCUSDT — Bitcoin / TetherUS Live TradingView Chart</h3>
-            </div>
-            <div class="master-chart-tabs">
-              <button class="tv-tab-btn active" onclick="switchMasterTradingViewChart('BINANCE:BTCUSDT', 'Bitcoin (BTC)', this)">BTC</button>
-              <button class="tv-tab-btn" onclick="switchMasterTradingViewChart('BINANCE:ETHUSDT', 'Ethereum (ETH)', this)">ETH</button>
-              <button class="tv-tab-btn" onclick="switchMasterTradingViewChart('BINANCE:SOLUSDT', 'Solana (SOL)', this)">SOL</button>
-              <button class="tv-tab-btn" onclick="switchMasterTradingViewChart('BYBIT:HYPEUSDT', 'Hyperliquid (HYPE)', this)">HYPE</button>
-              <button class="tv-tab-btn" onclick="switchMasterTradingViewChart('BINANCE:XRPUSDT', 'Ripple (XRP)', this)">XRP</button>
+          <div class="input-box">
+            <label for="q-back-odds">
+              <span id="q-back-label">2. Bookmaker Back Odds</span>
+              <span class="input-hint">Ideal: 1.50 &ndash; 2.20</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="odds-prefix">DEC</span>
+              <input type="number" id="q-back-odds" value="2.00" min="1.01" step="0.01" />
             </div>
           </div>
-          <div class="master-tv-widget-box" id="master_tv_chart_container"></div>
-        </section>
 
-        <!-- 3. TOP 5 HIGHEST RISING CRYPTOCURRENCIES OF THE WEEK, MONTH & YEAR -->
-        <section class="top-risers-master-section led-box" id="top-risers-section">
-          <div class="risers-header">
-            <div>
-              <div class="section-eyebrow">
-                <span class="led-indicator-dot"></span>
-                <span>LIVE GAINERS &amp; CRYPTO NEWS CATALYST TRACKER</span>
-              </div>
-              <h2>🚀 TOP 5 HIGHEST RISING CRYPTOCURRENCIES (WEEK • MONTH • YEAR)</h2>
-              <p class="risers-subtitle">
-                Updated live from <strong>TradingView Crypto Gainers</strong> (`Perf.W`, `Perf.1M`, `Perf.Y`), <strong>CoinGecko Market Movers</strong> &amp; <strong>Live Crypto News Catalysts</strong>
-              </p>
+          <div class="input-box">
+            <label for="q-lay-odds">
+              <span id="q-lay-label">3. Exchange Lay Odds (Hedge)</span>
+              <span class="input-hint">Keep close to Back odds</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="odds-prefix">DEC</span>
+              <input type="number" id="q-lay-odds" value="2.02" min="1.01" step="0.01" />
             </div>
+          </div>
 
-            <div class="risers-controls">
-              <div class="risers-tab-group" role="tablist">
-                <button class="riser-tab-btn active" data-period="ALL" onclick="switchRiserViewMode('ALL', this)">All 3 Timeframes</button>
-                <button class="riser-tab-btn" data-period="WEEK" onclick="switchRiserViewMode('WEEK', this)">🔥 Top 5 of the Week (7D)</button>
-                <button class="riser-tab-btn" data-period="MONTH" onclick="switchRiserViewMode('MONTH', this)">⚡ Top 5 of the Month (30D)</button>
-                <button class="riser-tab-btn" data-period="YEAR" onclick="switchRiserViewMode('YEAR', this)">👑 Top 5 of the Year (1Y)</button>
-              </div>
-              <button class="led-btn led-btn-mini" onclick="fetchTopRisingCryptosLive(true)">
-                <span>↻ Refresh Live Risers</span>
+          <div class="input-box">
+            <label for="q-comm">
+              <span id="q-comm-label">4. Exchange Commission %</span>
+              <span class="input-hint">0% - 2% typical</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="odds-prefix">%</span>
+              <input type="number" id="q-comm" value="1.0" min="0" max="20" step="0.5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Odds Nudge Buttons for Bet 1 -->
+        <div class="quick-odds-row">
+          <span class="quick-odds-label">Try Tight Qualifying Odds:</span>
+          <button type="button" class="nudge-btn" data-q-back="1.50" data-q-lay="1.52" data-q-comm="0">1.50 / 1.52 (-13p)</button>
+          <button type="button" class="nudge-btn" data-q-back="1.80" data-q-lay="1.82" data-q-comm="1">1.80 / 1.82 (-20p)</button>
+          <button type="button" class="nudge-btn" data-q-back="2.00" data-q-lay="2.02" data-q-comm="1">2.00 / 2.02 (-20p)</button>
+          <button type="button" class="nudge-btn" data-q-back="2.10" data-q-lay="2.12" data-q-comm="1">2.10 / 2.12 (-19p)</button>
+        </div>
+
+        <!-- Primary Hedge Output Box for Bet 1 -->
+        <div class="hedge-action-panel">
+          <div class="hedge-action-main">
+            <div class="hedge-action-label" id="q-action-title">PERFECT HEDGE LAY STAKE TO PLACE:</div>
+            <div class="hedge-stake-row">
+              <span class="hedge-stake-number" id="q-hedge-stake">£9.95</span>
+              <button type="button" class="btn-copy" id="copy-q-stake" data-copy-target="q-hedge-stake">
+                Copy Stake
               </button>
             </div>
-          </div>
-
-          <!-- 3-Column Grid for Week, Month, and Year Top 5 Risers -->
-          <div class="risers-three-col-grid" id="risers-three-col-grid">
-            <!-- Column 1: Top 5 of the Week -->
-            <div class="riser-board-card led-subbox" id="riser-col-week">
-              <div class="riser-board-header week-accent">
-                <div class="rb-title-group">
-                  <span class="rb-badge">7-DAY GAINERS</span>
-                  <h3>TOP 5 RISING — THIS WEEK</h3>
-                </div>
-                <span class="rb-live-tag" id="week-risers-status">LIVE SYNC</span>
-              </div>
-              <div class="riser-list" id="risers-week-list">
-                <!-- Populated dynamically by app.js -->
-              </div>
-            </div>
-
-            <!-- Column 2: Top 5 of the Month -->
-            <div class="riser-board-card led-subbox" id="riser-col-month">
-              <div class="riser-board-header month-accent">
-                <div class="rb-title-group">
-                  <span class="rb-badge">30-DAY GAINERS</span>
-                  <h3>TOP 5 RISING — THIS MONTH</h3>
-                </div>
-                <span class="rb-live-tag" id="month-risers-status">LIVE SYNC</span>
-              </div>
-              <div class="riser-list" id="risers-month-list">
-                <!-- Populated dynamically by app.js -->
-              </div>
-            </div>
-
-            <!-- Column 3: Top 5 of the Year -->
-            <div class="riser-board-card led-subbox" id="riser-col-year">
-              <div class="riser-board-header year-accent">
-                <div class="rb-title-group">
-                  <span class="rb-badge">365-DAY / 1Y GAINERS</span>
-                  <h3>TOP 5 RISING — THIS YEAR</h3>
-                </div>
-                <span class="rb-live-tag" id="year-risers-status">LIVE SYNC</span>
-              </div>
-              <div class="riser-list" id="risers-year-list">
-                <!-- Populated dynamically by app.js -->
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </main>
-
-      <!-- =================================================================
-           SIDEBAR: LIVE CRYPTO NEWS WIRE (UPDATING DIRECTLY FROM CRYPTO NEWS SITES)
-           ================================================================= -->
-      <aside class="terminal-news-sidebar led-box" id="live-crypto-news-sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-title-row">
-            <div class="live-radar-beacon">
-              <span class="radar-core"></span>
-              <span class="radar-wave"></span>
-            </div>
-            <div>
-              <h2>LIVE CRYPTO NEWS WIRE</h2>
-              <p class="sidebar-sub">Direct Real-Time Feeds: CoinDesk • CoinTelegraph • CryptoCompare • Decrypt</p>
+            <div class="hedge-action-instruction" id="q-instruction-line">
+              Place <strong>£10.00 Back</strong> at Bookmaker (odds <code>2.00</code>) &amp; <strong>£9.95 Lay</strong> at Exchange (odds <code>2.02</code>).
             </div>
           </div>
 
-          <!-- Filter pills for the Live News Sidebar -->
-          <div class="news-filter-bar">
-            <button class="news-filter-pill active" onclick="filterCryptoNews('ALL', this)">ALL</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('BTC', this)">BTC</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('ETH', this)">ETH</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('SOL', this)">SOL</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('HYPE', this)">HYPE</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('XRP', this)">XRP</button>
-            <button class="news-filter-pill" onclick="filterCryptoNews('RISERS', this)">🚀 RISERS</button>
-          </div>
-
-          <div class="news-search-row">
-            <input
-              type="text"
-              id="crypto-news-search"
-              placeholder="Search live crypto headlines (e.g., BTC, HYPE, ETF, Solana)..."
-              oninput="searchCryptoNews(this.value)"
-            />
-            <button class="led-btn-icon" onclick="fetchLiveCryptoNewsFeeds(true)" title="Refresh Crypto News Now">↻</button>
-          </div>
-
-          <div class="news-status-strip">
-            <span><span class="dot-online"></span> Feed Status: <strong id="news-feed-status-label">LIVE STREAMING</strong></span>
-            <span id="news-count-badge">0 Articles</span>
+          <div class="hedge-metrics-side">
+            <div class="side-stat">
+              <span class="side-stat-label" id="q-liability-label">Exchange Liability Needed</span>
+              <span class="side-stat-val" id="q-liability">£10.15</span>
+            </div>
+            <div class="side-stat">
+              <span class="side-stat-label">Guaranteed Qualifying Cost</span>
+              <span class="side-stat-val loss-tone" id="q-net-loss">-£0.20 (20p)</span>
+            </div>
           </div>
         </div>
 
-        <!-- Scrollable Live Crypto News Feed List -->
-        <div class="sidebar-news-stream" id="crypto-news-stream">
-          <!-- Populated dynamically by app.js from live CryptoCompare / CoinDesk / CoinTelegraph APIs -->
+        <!-- Live Smart Advisor for Bet 1 -->
+        <div class="smart-advisor-bar advisor-good" id="q-advisor">
+          <span class="advisor-dot"></span>
+          <p id="q-advisor-text">
+            <strong>Optimal Qualifying Match:</strong> Losing just <strong>20p (£0.20)</strong> on a £10 stake (98.0% match) is textbook. You are ready to unlock your Free Bet!
+          </p>
         </div>
-      </aside>
 
+        <!-- Outcome Verification Table for Bet 1 -->
+        <div class="proof-table-wrap">
+          <div class="proof-table-title">MATHEMATICAL HEDGE PROOF (IDENTICAL RESULT EITHER WAY)</div>
+          <table class="proof-table">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Bookmaker Account</th>
+                <th id="q-table-hedge-col">Exchange Account</th>
+                <th>Guaranteed Net</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="outcome-dot dot-blue"></span> <strong>If Selection Wins</strong> (Bookie Wins)</td>
+                <td class="pos-val" id="q-win-bookie">+£10.00</td>
+                <td class="neg-val" id="q-win-exchange">-£10.15</td>
+                <td class="net-cell" id="q-win-net">-£0.15</td>
+              </tr>
+              <tr>
+                <td><span class="outcome-dot dot-cyan"></span> <strong>If Selection Loses</strong> (Hedge Wins)</td>
+                <td class="neg-val" id="q-lose-bookie">-£10.00</td>
+                <td class="pos-val" id="q-lose-exchange">+£9.85</td>
+                <td class="net-cell" id="q-lose-net">-£0.15</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- ==================== BET 2: FREE BET HEDGE (70%+ PROFIT) ==================== -->
+      <article class="bet-card bet-card-featured" id="bet2-card">
+        <div class="bet-card-header">
+          <div class="step-pill step-2-pill">BET 02 // FREE BET HEDGE (THE MONEY MAKER)</div>
+          <div class="bet-rating-badge badge-electric" id="f-rating-badge">75.4% GUARANTEED PROFIT</div>
+        </div>
+
+        <div class="bet-card-title-row">
+          <h2>Free Bet Perfect Hedge <span class="text-electric">(Lock In ~70%&ndash;80% Profit)</span></h2>
+          <p class="bet-card-desc">
+            Goal: Convert your Free Bet token (Stake Not Returned / SNR) into <strong>70%&ndash;80% risk-free cash profit</strong> no matter which team or player wins.
+          </p>
+        </div>
+
+        <!-- Quick Strategy Callout inside Bet 2 -->
+        <div class="mini-rule-box rule-box-electric">
+          <div class="mini-rule-icon">💎</div>
+          <div class="mini-rule-text">
+            <strong>What Odds to Look For on Bet 2:</strong> Look for <strong>HIGH odds (4.50 to 7.00)</strong> on an underdog, correct score, or player prop where the Lay/Hedge odds are tight (e.g. Back <code>5.00</code> / Lay <code>5.20</code>). Higher odds = you lose less of the unreturned free stake!
+          </div>
+        </div>
+
+        <!-- Bet 2 Form Inputs -->
+        <div class="inputs-grid">
+          <div class="input-box">
+            <label for="f-stake">
+              <span>1. Free Bet Amount (Token)</span>
+              <span class="input-hint">Promo free bet value</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="curr-prefix">£</span>
+              <input type="number" id="f-stake" value="10.00" min="1" step="1" />
+            </div>
+          </div>
+
+          <div class="input-box">
+            <label for="f-back-odds">
+              <span id="f-back-label">2. Free Bet Back Odds</span>
+              <span class="input-hint">Sweet spot: 4.50 &ndash; 6.50</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="odds-prefix">DEC</span>
+              <input type="number" id="f-back-odds" value="5.00" min="1.10" step="0.05" />
+            </div>
+          </div>
+
+          <div class="input-box">
+            <label for="f-lay-odds">
+              <span id="f-lay-label">3. Exchange Lay Odds (Hedge)</span>
+              <span class="input-hint">Keep close to Back odds</span>
+            </label>
+            <div class="input-with-prefix">
+              <span class="odds-prefix">DEC</span>
+              <input type="number" id="f-lay-odds" value="5.20" min="1.10" step="0.05" />
+            </div>
+          </div>
+
+          <div class="input-box">
+            <label for="f-comm">
+              <span id="f-comm-label">4. Exchange Commission %</span>
+              <span class="input-hint"> &amp; Free Bet Type</span>
+            </label>
+            <div class="dual-mini-input">
+              <div class="input-with-prefix comm-half">
+                <span class="odds-prefix">%</span>
+                <input type="number" id="f-comm" value="2.0" min="0" max="20" step="0.5" />
+              </div>
+              <select id="f-type" class="snr-select" title="Free Bet Type">
+                <option value="SNR" selected>SNR (Stake Not Returned)</option>
+                <option value="SR">SR (Stake Returned)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Odds Nudge Buttons for Bet 2 -->
+        <div class="quick-odds-row">
+          <span class="quick-odds-label">Try 70%+ Free Bet Odds:</span>
+          <button type="button" class="nudge-btn-free" data-f-back="4.50" data-f-lay="4.65">4.50 / 4.65 (73.9%)</button>
+          <button type="button" class="nudge-btn-free" data-f-back="5.00" data-f-lay="5.20">5.00 / 5.20 (75.4%)</button>
+          <button type="button" class="nudge-btn-free" data-f-back="5.50" data-f-lay="5.70">5.50 / 5.70 (77.4%)</button>
+          <button type="button" class="nudge-btn-free" data-f-back="6.50" data-f-lay="6.75">6.50 / 6.75 (79.9%)</button>
+        </div>
+
+        <!-- Primary Hedge Output Box for Bet 2 -->
+        <div class="hedge-action-panel hedge-panel-electric">
+          <div class="hedge-action-main">
+            <div class="hedge-action-label" id="f-action-title">PERFECT FREE BET HEDGE LAY STAKE:</div>
+            <div class="hedge-stake-row">
+              <span class="hedge-stake-number electric-number" id="f-hedge-stake">£7.72</span>
+              <button type="button" class="btn-copy btn-copy-electric" id="copy-f-stake" data-copy-target="f-hedge-stake">
+                Copy Stake
+              </button>
+            </div>
+            <div class="hedge-action-instruction" id="f-instruction-line">
+              Use <strong>£10.00 Free Bet</strong> at Bookmaker (odds <code>5.00</code>) &amp; place <strong>£7.72 Lay</strong> at Exchange (odds <code>5.20</code>).
+            </div>
+          </div>
+
+          <div class="hedge-metrics-side">
+            <div class="side-stat">
+              <span class="side-stat-label" id="f-liability-label">Exchange Liability Needed</span>
+              <span class="side-stat-val" id="f-liability">£32.43</span>
+            </div>
+            <div class="side-stat">
+              <span class="side-stat-label">Guaranteed Free Bet Profit</span>
+              <span class="side-stat-val profit-tone" id="f-net-profit">+£7.57 (75.7%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Smart Advisor for Bet 2 -->
+        <div class="smart-advisor-bar advisor-electric" id="f-advisor">
+          <span class="advisor-dot"></span>
+          <p id="f-advisor-text">
+            <strong>70%+ Profit Locked:</strong> These odds extract <strong>75.7%</strong> of your Free Bet as guaranteed cash (+£7.57). After your 20p qualifying loss, you net <strong>+£7.37 guaranteed</strong>!
+          </p>
+        </div>
+
+        <!-- Outcome Verification Table for Bet 2 -->
+        <div class="proof-table-wrap">
+          <div class="proof-table-title">MATHEMATICAL HEDGE PROOF (GUARANTEED PROFIT EITHER WAY)</div>
+          <table class="proof-table">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Bookmaker (Free Bet)</th>
+                <th id="f-table-hedge-col">Exchange Account</th>
+                <th>Guaranteed Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="outcome-dot dot-blue"></span> <strong>If Free Bet Wins</strong> (Bookie Wins)</td>
+                <td class="pos-val" id="f-win-bookie">+£40.00</td>
+                <td class="neg-val" id="f-win-exchange">-£32.43</td>
+                <td class="net-cell profit-tone" id="f-win-net">+£7.57</td>
+              </tr>
+              <tr>
+                <td><span class="outcome-dot dot-cyan"></span> <strong>If Free Bet Loses</strong> (Hedge Wins)</td>
+                <td class="neutral-val" id="f-lose-bookie">£0.00 (Free Token)</td>
+                <td class="pos-val" id="f-lose-exchange">+£7.57</td>
+                <td class="net-cell profit-tone" id="f-lose-net">+£7.57</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <!-- ==================== INTERACTIVE ODDS SIMULATOR: WHY HIGH ODDS = 70%+ PROFIT ==================== -->
+    <section class="simulator-section" aria-label="Free Bet Odds vs Profit Simulator">
+      <div class="section-header-row">
+        <div>
+          <span class="section-eyebrow">LIVE ODDS MATRIX // WHY ODDS SELECTION MATTERS</span>
+          <h2>How Free Bet Odds Control Your Guaranteed Profit %</h2>
+        </div>
+        <p class="section-subnote">
+          Calculated live for your current <strong id="sim-free-stake-label">£10.00</strong> Free Bet &amp; <strong id="sim-comm-label">2.0%</strong> commission. Notice how odds below <code>3.50</code> fail to hit 70%, while <code>4.50 &ndash; 6.50</code> effortlessly lock in <strong>73%&ndash;80% profit</strong>:
+        </p>
+      </div>
+
+      <div class="matrix-table-container">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Free Bet Back Odds</th>
+              <th id="matrix-hedge-col-title">Typical Tight Lay Odds</th>
+              <th>Hedge Stake to Place</th>
+              <th>Hedge Liability / Outlay</th>
+              <th>Guaranteed Cash Profit</th>
+              <th>% of Free Bet Retained</th>
+              <th>Net Profit (After Bet 1)</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody id="odds-matrix-body">
+            <!-- Dynamically populated by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== COMPLETE STEP-BY-STEP INSTRUCTIONS & ODDS STRATEGY PLAYBOOK ==================== -->
+    <section class="playbook-section" id="strategy-playbook" aria-label="User Instructions and Strategy Guide">
+      <div class="section-header-row">
+        <div>
+          <span class="section-eyebrow">COMPLETE USER INSTRUCTIONS // STEP-BY-STEP BLUEPRINT</span>
+          <h2>How to Lose ~20p on Bet 1 &amp; Guarantee ~70%+ Profit on Bet 2</h2>
+        </div>
+        <p class="section-subnote">
+          Follow this exact 2-phase formula every time a bookmaker offers a <em>"Bet £10, Get £10 / £30 Free Bet"</em> promotion.
+        </p>
+      </div>
+
+      <div class="playbook-cards-grid">
+        <!-- PHASE 1 GUIDE -->
+        <div class="playbook-card">
+          <div class="playbook-card-top">
+            <span class="playbook-step-num">STEP 01</span>
+            <h3>The Qualifying Bet (Lose Only ~20p)</h3>
+          </div>
+          <p class="playbook-lead">
+            Your first bet uses your own cash just to unlock the bookmaker's Free Bet promotion. You aren't trying to gamble here &mdash; you want to break almost completely even (losing only ~15p to 25p in market spread).
+          </p>
+
+          <div class="Checklist-block">
+            <h4>🔍 Exact Odds to Look For on Bet 1:</h4>
+            <ul class="strategy-list">
+              <li>
+                <strong>1. Look for LOW Odds (<code>1.50</code> to <code>2.20</code>):</strong>
+                Check the promo terms for the minimum odds allowed (usually <code>1.50</code> [1/2] or <code>2.00</code> [Evens]). Pick a team or selection right near that minimum. Why? Because low odds keep your exchange liability small (only ~£5 to £12 needed) and minimise commission losses.
+              </li>
+              <li>
+                <strong>2. Keep Back &amp; Lay Odds Within <code>0.02</code> to <code>0.04</code>:</strong>
+                For example, if the Bookmaker offers <strong>Back Odds of <code>2.00</code></strong>, look for <strong>Exchange Lay Odds of <code>2.00</code>, <code>2.02</code>, or <code>2.04</code></strong> (or in 2-Bookie mode, two opposite outcomes like Over/Under both at <code>1.98</code>).
+              </li>
+              <li>
+                <strong>3. Target a 97.5%+ Match Rating:</strong>
+                At <code>2.00</code> Back / <code>2.02</code> Lay on a £10 stake, your guaranteed loss is just <strong>15p to 20p</strong>. Think of that 20p as buying a £10 or £30 Free Bet token!
+              </li>
+            </ul>
+          </div>
+
+          <div class="dos-donts-row">
+            <div class="do-pill">✔ DO: Bet on high-liquidity football/tennis matches where Back &amp; Lay odds are razor-tight.</div>
+            <div class="dont-pill">✖ DON'T: Use high odds (like 6.00) for your Qualifying Bet &mdash; spreads are wider and you'll lose £1+ unnecessarily.</div>
+          </div>
+        </div>
+
+        <!-- PHASE 2 GUIDE -->
+        <div class="playbook-card playbook-card-electric">
+          <div class="playbook-card-top">
+            <span class="playbook-step-num step-num-electric">STEP 02</span>
+            <h3>The Free Bet Hedge (Guarantee ~70%&ndash;80% Profit)</h3>
+          </div>
+          <p class="playbook-lead">
+            Once Bet 1 settles, the bookmaker gives you a <strong>Free Bet (SNR &mdash; Stake Not Returned)</strong>. Because the bookmaker keeps the free bet stake and only pays the winnings, <strong>higher odds give you a much higher guaranteed profit!</strong>
+          </p>
+
+          <div class="Checklist-block">
+            <h4>🚀 Exact Odds to Look For on Bet 2:</h4>
+            <ul class="strategy-list">
+              <li>
+                <strong>1. Look for HIGH Odds (<code>4.50</code> to <code>7.00</code>):</strong>
+                Why? On a £10 Free Bet at <code>2.00</code> odds, your bookie winnings are only £10, leaving you with just ~£4.80 (48%) after hedging. At <strong><code>5.00</code> odds</strong>, your bookie winnings are <strong>£40.00</strong> &mdash; meaning the unreturned £10 stake is only a tiny fraction of the payout, locking in <strong>~£7.55 (75.5% guaranteed profit)</strong>!
+              </li>
+              <li>
+                <strong>2. Keep the High-Odds Spread Tight (Within <code>0.15</code> to <code>0.30</code>):</strong>
+                Ideal examples: Back <code>4.50</code> / Lay <code>4.65</code> (<strong>74.0% profit</strong>), Back <code>5.00</code> / Lay <code>5.20</code> (<strong>75.4% profit</strong>), or Back <code>6.00</code> / Lay <code>6.25</code> (<strong>78.4% profit</strong>).
+              </li>
+              <li>
+                <strong>3. If Using 2 Bookmakers (No Exchange):</strong>
+                Place your Free Bet on an underdog at Bookie 1 (e.g., <strong>Odds <code>4.20</code> to <code>5.50</code></strong>) and hedge with cash on the heavy favorite / Double Chance at Bookie 2 (e.g., <strong>Odds <code>1.25</code> to <code>1.36</code></strong>).
+              </li>
+            </ul>
+          </div>
+
+          <div class="dos-donts-row">
+            <div class="do-pill">✔ DO: Check your Exchange account balance can cover the Liability (usually 3x&ndash;4x the Free Bet stake at 5.0 odds).</div>
+            <div class="dont-pill">✖ DON'T: Place your Free Bet at low odds like 1.80 or 2.00 &mdash; you'll throw away ~25% of your guaranteed cash!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 GOLDEN RULES FOOTER STRIP -->
+      <div class="golden-rules-grid">
+        <div class="rule-tile">
+          <div class="rule-num">RULE 01</div>
+          <h4>Understand "Lay" vs "Back"</h4>
+          <p>
+            <strong>Back</strong> = betting FOR an outcome to happen (at the Bookmaker).<br />
+            <strong>Lay</strong> = betting AGAINST that exact same outcome (at Betfair, Smarkets, or Matchbook) so every possible match result is 100% covered.
+          </p>
+        </div>
+        <div class="rule-tile">
+          <div class="rule-num">RULE 02</div>
+          <h4>Why 4.50&ndash;6.50 is the Sweet Spot</h4>
+          <p>
+            Odds above <code>7.50</code> can push profit toward 80%, but require a large exchange balance for liability. Odds between <code>4.50</code> and <code>6.00</code> easily beat the <strong>70%&ndash;77% target</strong> while keeping liability manageable.
+          </p>
+        </div>
+        <div class="rule-tile">
+          <div class="rule-num">RULE 03</div>
+          <h4>Football Draws &amp; Underdogs Shine</h4>
+          <p>
+            Premier League / Champions League <strong>Match Result Draws</strong> or away underdogs often sit right at <code>4.20</code>&ndash;<code>5.50</code> with ultra-tight exchange spreads (e.g. <code>4.80</code> Back / <code>4.90</code> Lay).
+          </p>
+        </div>
+        <div class="rule-tile">
+          <div class="rule-num">RULE 04</div>
+          <h4>Never Hedge on the Same Bookie</h4>
+          <p>
+            Always place your Qualifying/Free Bet at Bookmaker A and your Hedge Bet at a Betting Exchange (or Bookmaker B). Never bet both sides of a market on the same bookmaker account.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="logo-code">KP//HEDGE</span>
+        <span>Black &amp; Electric Blue Matched Betting &amp; Free Bet Perfect Hedge Terminal</span>
+      </div>
+      <div class="footer-right">
+        <span>Guaranteed Math &bull; Qualifying Bet (~20p Loss) + Free Bet SNR (70%&ndash;80% Profit)</span>
+      </div>
     </div>
-
-    <!-- Bottom Animated LED Light Strip -->
-    <div class="led-light-strip bottom-strip" id="led-bottom-strip">
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-      <span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span><span class="led-diode"></span>
-    </div>
-
-    <footer class="cyber-footer">
-      <div>
-        <strong>KPOINTCRYPTOGLANCE // 5-CRYPTO LIVE TRADINGVIEW TERMINAL</strong> — Real-Time Prices from TradingView (`scanner.tradingview.com`) + Live Crypto News &amp; Top 5 Risers
-      </div>
-      <div class="kpoint-signature-badge">
-        Kpoint made this one!
-      </div>
-      <div>
-        <span>LED Pulse Interval: <strong>Every 3.0 Seconds</strong></span> •
-        <span>Assets: <strong>BTC • ETH • SOL • HYPE • XRP</strong></span>
-      </div>
-    </footer>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="toast-container"></div>
+  </footer>
 
   <script src="app.js"></script>
 </body>
