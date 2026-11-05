@@ -3,606 +3,450 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KPOINT HEDGE // Free Bet &amp; Qualifying Bet 70%+ Profit Calculator</title>
+  <title>KPOINT POLYMARKET HEDGE // Top 10 Daily Quant Finance Hedging Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Ambient Electric Blue Glow Backdrop -->
-  <div class="bg-grid-overlay" aria-hidden="true"></div>
-  <div class="bg-blue-radial" aria-hidden="true"></div>
+  <!-- Subtle Carbon & Gunmetal Grid Backdrop -->
+  <div class="bg-carbon-grid" aria-hidden="true"></div>
+  <div class="bg-grey-vignette" aria-hidden="true"></div>
 
-  <!-- Top Navigation & Mode Header -->
+  <!-- ==================== INSTITUTIONAL TOPBAR ==================== -->
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand-block">
-        <div class="brand-logo">
-          <span class="logo-pulse"></span>
-          <span class="logo-code">KP//HEDGE</span>
+      <div class="brand-cluster">
+        <div class="brand-badge">
+          <span class="status-dot" id="feed-status-dot"></span>
+          <span class="brand-code">KP//POLYHEDGE</span>
         </div>
         <div class="brand-titles">
-          <h1>FREE BET PERFECT HEDGE TERMINAL</h1>
-          <p class="brand-subtitle">2-Bet Matched Hedging System &bull; Lose ~20p on Bet 1 &bull; Lock In 70%&ndash;80% Guaranteed Profit on Bet 2</p>
+          <h1>POLYMARKET QUANT HEDGE TERMINAL</h1>
+          <p class="brand-subtitle">
+            Live Polymarket Gamma API &bull; Top 10 Daily Bets to Hedge &amp; Lock Arbitrage / Delta-Neutral Alpha
+          </p>
         </div>
       </div>
 
-      <div class="topbar-controls">
-        <!-- Hedging Method Switcher -->
-        <div class="control-group" role="group" aria-label="Hedging Method">
-          <span class="control-label">HEDGE METHOD</span>
-          <div class="segmented-pills-blue">
-            <button type="button" class="seg-btn active" id="mode-exchange-btn" data-mode="exchange">
-              Exchange Lay (Back vs Lay)
-            </button>
-            <button type="button" class="seg-btn" id="mode-dutch-btn" data-mode="dutch">
-              2-Bookie Hedge (Bet A vs Bet B)
-            </button>
+      <div class="topbar-actions">
+        <!-- Trade Bankroll / Capital Per Bet Selector -->
+        <div class="control-block" role="group" aria-label="Trade Allocation Capital">
+          <span class="control-label">HEDGE CAPITAL PER BET ($)</span>
+          <div class="capital-control-row">
+            <div class="cap-Quick-pills">
+              <button type="button" class="cap-pill" data-cap="100">$100</button>
+              <button type="button" class="cap-pill" data-cap="500">$500</button>
+              <button type="button" class="cap-pill active" data-cap="1000">$1,000</button>
+              <button type="button" class="cap-pill" data-cap="5000">$5,000</button>
+            </div>
+            <div class="cap-custom-input">
+              <span class="prefix">$</span>
+              <input type="number" id="global-capital-input" value="1000" min="10" step="50" aria-label="Custom Capital Amount" />
+            </div>
           </div>
         </div>
 
-        <!-- Currency Switcher -->
-        <div class="control-group" role="group" aria-label="Currency">
-          <span class="control-label">CURRENCY</span>
-          <div class="segmented-pills-blue">
-            <button type="button" class="curr-btn active" data-currency="£">£ GBP</button>
-            <button type="button" class="curr-btn" data-currency="$">$ USD</button>
-            <button type="button" class="curr-btn" data-currency="€">€ EUR</button>
+        <!-- Live Sync & Export Controls -->
+        <div class="action-buttons-group">
+          <div class="sync-meta-box">
+            <span class="sync-source-tag" id="sync-source-badge">GAMMA API LIVE</span>
+            <span class="sync-clock" id="last-sync-clock">--:--:-- UTC</span>
           </div>
+          <button type="button" class="btn-grey-primary" id="btn-refresh-live" title="Pull latest live Polymarket orderbooks">
+            <span class="spin-icon" id="refresh-icon">&#x21bb;</span>
+            <span id="refresh-btn-text">Sync Live Polymarket</span>
+          </button>
+          <button type="button" class="btn-grey-outline" id="btn-export-csv" title="Export Top 10 Daily Quant Hedge Sheet to CSV">
+            <span>&darr; Export CSV</span>
+          </button>
         </div>
-
-        <!-- Quick Jump to Instructions -->
-        <a href="#strategy-playbook" class="btn-outline-blue">
-          <span>📘 What Odds to Look For</span>
-        </a>
       </div>
     </div>
   </header>
 
-  <main class="main-container">
-    <!-- Presets & Quick Odds Converter Strip -->
-    <section class="utility-strip" aria-label="Preset Offers and Odds Converter">
-      <div class="presets-bar">
-        <span class="strip-title">⚡ LOAD PROMO PRESET:</span>
-        <button type="button" class="preset-chip active" data-preset="bet10get10">
-          Bet £10 Get £10 Free (Lose 20p &rarr; +£7.34 Net)
+  <main class="terminal-container">
+    <!-- ==================== EXECUTIVE QUANT PORTFOLIO STRIP ==================== -->
+    <section class="portfolio-kpi-strip" aria-label="Daily Top 10 Quant Hedge Summary">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-tag">01 // CAPITAL PER HEDGE POSITION</span>
+          <span class="kpi-pill">2-LEG COLLAR</span>
+        </div>
+        <div class="kpi-value" id="kpi-capital-per-bet">$1,000.00</div>
+        <div class="kpi-sub" id="kpi-total-basket">Top 10 Basket Total: $10,000.00 deployed across 20 legs</div>
+      </div>
+
+      <div class="kpi-card kpi-card-highlight">
+        <div class="kpi-header">
+          <span class="kpi-tag">02 // AVG LOCKED ARBITRAGE FLOOR</span>
+          <span class="kpi-pill pill-positive" id="kpi-avg-roi-pill">+3.82% GUARANTEED</span>
+        </div>
+        <div class="kpi-value text-platinum" id="kpi-locked-profit-per-bet">+$38.20 <span class="kpi-unit">/ bet</span></div>
+        <div class="kpi-sub" id="kpi-locked-basket-total">+$382.00 risk-hedged floor across all Top 10 bets</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-tag">03 // EXPECTED 24H QUANT ALPHA (+EV)</span>
+          <span class="kpi-pill" id="kpi-alpha-pill">+6.45% EV+</span>
+        </div>
+        <div class="kpi-value" id="kpi-expected-alpha-dollar">+$64.50 <span class="kpi-unit">/ bet</span></div>
+        <div class="kpi-sub" id="kpi-sharpe-sub">Portfolio Mean Sharpe: 3.12 &bull; Optimal Kelly: 14.2%</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-tag">04 // 24H POLYMARKET SCANNED VOLUME</span>
+          <span class="kpi-pill" id="kpi-live-count-pill">10 LIVE MARKETS</span>
+        </div>
+        <div class="kpi-value" id="kpi-scanned-volume">$42.8M</div>
+        <div class="kpi-sub" id="kpi-spread-sub">Mean Orderbook Dislocation: 365 bps (&Sigma; Cost &lt; $1.00)</div>
+      </div>
+    </section>
+
+    <!-- ==================== STRATEGY FILTER & TOOLBAR ==================== -->
+    <section class="controls-toolbar" aria-label="Quant Strategy Filter and Sorting">
+      <div class="filter-pills-cluster" role="tablist" aria-label="Filter by Quant Hedge Strategy">
+        <span class="toolbar-label">QUANT STRATEGY:</span>
+        <button type="button" class="strat-pill active" data-strategy="ALL">
+          All Top 10 Daily (<span id="count-all">10</span>)
         </button>
-        <button type="button" class="preset-chip" data-preset="bet10get30">
-          Bet £10 Get £30 Free (Lose 20p &rarr; +£22.41 Net)
+        <button type="button" class="strat-pill" data-strategy="DUTCH_ARB">
+          Multi-Bracket Dutch Arb
         </button>
-        <button type="button" class="preset-chip" data-preset="bet20get20">
-          Bet £20 Get £20 Free (Lose 39p &rarr; +£14.68 Net)
+        <button type="button" class="strat-pill" data-strategy="SPREAD_STRADDLE">
+          Maker Spread Straddle
         </button>
-        <button type="button" class="preset-chip" data-preset="high78">
-          High-Odds 78% Sniper (Odds 6.0 / 6.2)
+        <button type="button" class="strat-pill" data-strategy="CONVEX_COLLAR">
+          Convexity + NO Anchor
+        </button>
+        <button type="button" class="strat-pill" data-strategy="THETA_PAIR">
+          High-Prob Theta Pair
         </button>
       </div>
 
-      <!-- Inline Fractional / American / Decimal Converter -->
-      <div class="converter-bar">
-        <span class="strip-title">🔄 ODDS CONVERTER:</span>
-        <div class="conv-inputs">
-          <label class="conv-field">
-            <span>Fractional</span>
-            <input type="text" id="conv-frac" value="4/1" placeholder="e.g. 4/1" />
-          </label>
-          <span class="conv-eq">=</span>
-          <label class="conv-field">
-            <span>Decimal</span>
-            <input type="number" id="conv-dec" value="5.00" step="0.01" min="1.01" />
-          </label>
-          <span class="conv-eq">=</span>
-          <label class="conv-field">
-            <span>American</span>
-            <input type="text" id="conv-amer" value="+400" placeholder="+400" />
-          </label>
-          <button type="button" class="btn-mini-blue" id="apply-conv-bet2" title="Send Decimal Odds to Bet 2 (Free Bet)">
-            Use in Bet 2 &rarr;
-          </button>
+      <div class="right-toolbar-cluster">
+        <div class="Hedge-mode-selector">
+          <label for="hedge-allocation-mode" class="toolbar-label">SIZING MODE:</label>
+          <select id="hedge-allocation-mode" class="grey-select" title="Choose how capital is hedged between Leg 1 and Leg 2">
+            <option value="equal" selected>Equal-Profit Arbitrage Lock (Same Profit YES or NO)</option>
+            <option value="freeroll_yes">Zero-Loss NO Floor + Max Convexity on YES</option>
+            <option value="freeroll_no">Zero-Loss YES Floor + Max Convexity on NO</option>
+          </select>
+        </div>
+
+        <div class="sort-selector">
+          <label for="sort-select" class="toolbar-label">RANK BY:</label>
+          <select id="sort-select" class="grey-select">
+            <option value="quantScore" selected>Quant Composite Score (Top 10)</option>
+            <option value="guaranteedRoiPct">Highest Locked Hedge ROI %</option>
+            <option value="expectedAlphaPct">Highest Expected Quant Alpha %</option>
+            <option value="volume24hr">Highest 24H Polymarket Volume</option>
+            <option value="sharpeRatio">Highest Sharpe Ratio</option>
+          </select>
+        </div>
+
+        <div class="search-box">
+          <input type="text" id="market-search" placeholder="Filter market, ticker, or tag..." aria-label="Search Top 10 Markets" />
         </div>
       </div>
     </section>
 
-    <!-- Combined 2-Bet Campaign Master Dashboard -->
-    <section class="campaign-master-banner" aria-label="Combined 2-Bet Profit Summary">
-      <div class="campaign-summary-grid">
-        <div class="summary-metric-card">
-          <div class="metric-tag">STEP 1 &bull; QUALIFYING BET RESULT</div>
-          <div class="metric-value loss-tone" id="master-qual-result">-£0.20</div>
-          <div class="metric-sub" id="master-qual-sub">Only ~20p cost to unlock Free Bet (98.0% rating)</div>
-        </div>
-
-        <div class="summary-operator">+</div>
-
-        <div class="summary-metric-card">
-          <div class="metric-tag">STEP 2 &bull; FREE BET HEDGE PROFIT</div>
-          <div class="metric-value profit-tone" id="master-free-profit">+£7.54</div>
-          <div class="metric-sub" id="master-free-sub">75.4% guaranteed extraction regardless of winner</div>
-        </div>
-
-        <div class="summary-operator">=</div>
-
-        <div class="summary-metric-card highlight-blue-card">
-          <div class="metric-tag">TOTAL GUARANTEED NET PROFIT (BET 1 + BET 2)</div>
-          <div class="metric-value hero-profit" id="master-net-profit">+£7.34</div>
-          <div class="metric-sub" id="master-net-sub">73.4% net profit of Free Bet after deducting 20p qualifier!</div>
-        </div>
-
-        <div class="summary-gauge-card">
-          <div class="gauge-header">
-            <span class="gauge-label">FREE BET PROFIT RETENTION</span>
-            <span class="gauge-badge" id="master-target-badge">✔ 70%+ TARGET HIT</span>
-          </div>
-          <div class="gauge-pct-row">
-            <span class="gauge-big-pct" id="master-retention-pct">75.4%</span>
-            <span class="gauge-target-note">Target: &ge; 70.0%</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-target-marker" style="left: 70%;" title="70% Target Line"></div>
-            <div class="progress-fill" id="master-progress-fill" style="width: 75.4%;"></div>
-          </div>
-          <div class="gauge-footer" id="master-capital-needed">
-            Total Hedge Balance Needed: <strong>£41.91</strong>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dual Bet Calculators Grid (Bet 1: Qualifying Bet & Bet 2: Free Bet Hedge) -->
-    <section class="calculators-grid" aria-label="Two-Bet Hedge Calculators">
-      
-      <!-- ==================== BET 1: QUALIFYING BET ==================== -->
-      <article class="bet-card" id="bet1-card">
-        <div class="bet-card-header">
-          <div class="step-pill step-1-pill">BET 01 // QUALIFYING BET</div>
-          <div class="bet-rating-badge" id="q-rating-badge">98.0% MATCH &bull; -20p LOSS</div>
-        </div>
-
-        <div class="bet-card-title-row">
-          <h2>Qualifying Bet Hedge <span class="text-blue">(Unlock the Free Bet)</span></h2>
-          <p class="bet-card-desc">
-            Goal: Place your required cash bet to trigger the promo while hedging the opposite side so you only lose around <strong>20p (£0.20)</strong> no matter who wins.
-          </p>
-        </div>
-
-        <!-- Quick Strategy Callout inside Bet 1 -->
-        <div class="mini-rule-box">
-          <div class="mini-rule-icon">🎯</div>
-          <div class="mini-rule-text">
-            <strong>What Odds to Look For on Bet 1:</strong> Look for <strong>LOW odds (1.50 to 2.20)</strong> that meet the bookie's minimum odds rule, with <strong>Hedge Lay odds as close as possible</strong> (within <code>0.02</code>&ndash;<code>0.05</code>, e.g. Back <code>2.00</code> / Lay <code>2.02</code>).
-          </div>
-        </div>
-
-        <!-- Bet 1 Form Inputs -->
-        <div class="inputs-grid">
-          <div class="input-box">
-            <label for="q-stake">
-              <span>1. Bookmaker Qualifying Stake</span>
-              <span class="input-hint">Cash stake required</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="curr-prefix">£</span>
-              <input type="number" id="q-stake" value="10.00" min="0.5" step="0.5" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="q-back-odds">
-              <span id="q-back-label">2. Bookmaker Back Odds</span>
-              <span class="input-hint">Ideal: 1.50 &ndash; 2.20</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="odds-prefix">DEC</span>
-              <input type="number" id="q-back-odds" value="2.00" min="1.01" step="0.01" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="q-lay-odds">
-              <span id="q-lay-label">3. Exchange Lay Odds (Hedge)</span>
-              <span class="input-hint">Keep close to Back odds</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="odds-prefix">DEC</span>
-              <input type="number" id="q-lay-odds" value="2.02" min="1.01" step="0.01" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="q-comm">
-              <span id="q-comm-label">4. Exchange Commission %</span>
-              <span class="input-hint">0% - 2% typical</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="odds-prefix">%</span>
-              <input type="number" id="q-comm" value="1.0" min="0" max="20" step="0.5" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Odds Nudge Buttons for Bet 1 -->
-        <div class="quick-odds-row">
-          <span class="quick-odds-label">Try Tight Qualifying Odds:</span>
-          <button type="button" class="nudge-btn" data-q-back="1.50" data-q-lay="1.52" data-q-comm="0">1.50 / 1.52 (-13p)</button>
-          <button type="button" class="nudge-btn" data-q-back="1.80" data-q-lay="1.82" data-q-comm="1">1.80 / 1.82 (-20p)</button>
-          <button type="button" class="nudge-btn" data-q-back="2.00" data-q-lay="2.02" data-q-comm="1">2.00 / 2.02 (-20p)</button>
-          <button type="button" class="nudge-btn" data-q-back="2.10" data-q-lay="2.12" data-q-comm="1">2.10 / 2.12 (-19p)</button>
-        </div>
-
-        <!-- Primary Hedge Output Box for Bet 1 -->
-        <div class="hedge-action-panel">
-          <div class="hedge-action-main">
-            <div class="hedge-action-label" id="q-action-title">PERFECT HEDGE LAY STAKE TO PLACE:</div>
-            <div class="hedge-stake-row">
-              <span class="hedge-stake-number" id="q-hedge-stake">£9.95</span>
-              <button type="button" class="btn-copy" id="copy-q-stake" data-copy-target="q-hedge-stake">
-                Copy Stake
-              </button>
-            </div>
-            <div class="hedge-action-instruction" id="q-instruction-line">
-              Place <strong>£10.00 Back</strong> at Bookmaker (odds <code>2.00</code>) &amp; <strong>£9.95 Lay</strong> at Exchange (odds <code>2.02</code>).
-            </div>
-          </div>
-
-          <div class="hedge-metrics-side">
-            <div class="side-stat">
-              <span class="side-stat-label" id="q-liability-label">Exchange Liability Needed</span>
-              <span class="side-stat-val" id="q-liability">£10.15</span>
-            </div>
-            <div class="side-stat">
-              <span class="side-stat-label">Guaranteed Qualifying Cost</span>
-              <span class="side-stat-val loss-tone" id="q-net-loss">-£0.20 (20p)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Smart Advisor for Bet 1 -->
-        <div class="smart-advisor-bar advisor-good" id="q-advisor">
-          <span class="advisor-dot"></span>
-          <p id="q-advisor-text">
-            <strong>Optimal Qualifying Match:</strong> Losing just <strong>20p (£0.20)</strong> on a £10 stake (98.0% match) is textbook. You are ready to unlock your Free Bet!
-          </p>
-        </div>
-
-        <!-- Outcome Verification Table for Bet 1 -->
-        <div class="proof-table-wrap">
-          <div class="proof-table-title">MATHEMATICAL HEDGE PROOF (IDENTICAL RESULT EITHER WAY)</div>
-          <table class="proof-table">
-            <thead>
-              <tr>
-                <th>Scenario</th>
-                <th>Bookmaker Account</th>
-                <th id="q-table-hedge-col">Exchange Account</th>
-                <th>Guaranteed Net</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="outcome-dot dot-blue"></span> <strong>If Selection Wins</strong> (Bookie Wins)</td>
-                <td class="pos-val" id="q-win-bookie">+£10.00</td>
-                <td class="neg-val" id="q-win-exchange">-£10.15</td>
-                <td class="net-cell" id="q-win-net">-£0.15</td>
-              </tr>
-              <tr>
-                <td><span class="outcome-dot dot-cyan"></span> <strong>If Selection Loses</strong> (Hedge Wins)</td>
-                <td class="neg-val" id="q-lose-bookie">-£10.00</td>
-                <td class="pos-val" id="q-lose-exchange">+£9.85</td>
-                <td class="net-cell" id="q-lose-net">-£0.15</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-      <!-- ==================== BET 2: FREE BET HEDGE (70%+ PROFIT) ==================== -->
-      <article class="bet-card bet-card-featured" id="bet2-card">
-        <div class="bet-card-header">
-          <div class="step-pill step-2-pill">BET 02 // FREE BET HEDGE (THE MONEY MAKER)</div>
-          <div class="bet-rating-badge badge-electric" id="f-rating-badge">75.4% GUARANTEED PROFIT</div>
-        </div>
-
-        <div class="bet-card-title-row">
-          <h2>Free Bet Perfect Hedge <span class="text-electric">(Lock In ~70%&ndash;80% Profit)</span></h2>
-          <p class="bet-card-desc">
-            Goal: Convert your Free Bet token (Stake Not Returned / SNR) into <strong>70%&ndash;80% risk-free cash profit</strong> no matter which team or player wins.
-          </p>
-        </div>
-
-        <!-- Quick Strategy Callout inside Bet 2 -->
-        <div class="mini-rule-box rule-box-electric">
-          <div class="mini-rule-icon">💎</div>
-          <div class="mini-rule-text">
-            <strong>What Odds to Look For on Bet 2:</strong> Look for <strong>HIGH odds (4.50 to 7.00)</strong> on an underdog, correct score, or player prop where the Lay/Hedge odds are tight (e.g. Back <code>5.00</code> / Lay <code>5.20</code>). Higher odds = you lose less of the unreturned free stake!
-          </div>
-        </div>
-
-        <!-- Bet 2 Form Inputs -->
-        <div class="inputs-grid">
-          <div class="input-box">
-            <label for="f-stake">
-              <span>1. Free Bet Amount (Token)</span>
-              <span class="input-hint">Promo free bet value</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="curr-prefix">£</span>
-              <input type="number" id="f-stake" value="10.00" min="1" step="1" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="f-back-odds">
-              <span id="f-back-label">2. Free Bet Back Odds</span>
-              <span class="input-hint">Sweet spot: 4.50 &ndash; 6.50</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="odds-prefix">DEC</span>
-              <input type="number" id="f-back-odds" value="5.00" min="1.10" step="0.05" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="f-lay-odds">
-              <span id="f-lay-label">3. Exchange Lay Odds (Hedge)</span>
-              <span class="input-hint">Keep close to Back odds</span>
-            </label>
-            <div class="input-with-prefix">
-              <span class="odds-prefix">DEC</span>
-              <input type="number" id="f-lay-odds" value="5.20" min="1.10" step="0.05" />
-            </div>
-          </div>
-
-          <div class="input-box">
-            <label for="f-comm">
-              <span id="f-comm-label">4. Exchange Commission %</span>
-              <span class="input-hint"> &amp; Free Bet Type</span>
-            </label>
-            <div class="dual-mini-input">
-              <div class="input-with-prefix comm-half">
-                <span class="odds-prefix">%</span>
-                <input type="number" id="f-comm" value="2.0" min="0" max="20" step="0.5" />
-              </div>
-              <select id="f-type" class="snr-select" title="Free Bet Type">
-                <option value="SNR" selected>SNR (Stake Not Returned)</option>
-                <option value="SR">SR (Stake Returned)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Odds Nudge Buttons for Bet 2 -->
-        <div class="quick-odds-row">
-          <span class="quick-odds-label">Try 70%+ Free Bet Odds:</span>
-          <button type="button" class="nudge-btn-free" data-f-back="4.50" data-f-lay="4.65">4.50 / 4.65 (73.9%)</button>
-          <button type="button" class="nudge-btn-free" data-f-back="5.00" data-f-lay="5.20">5.00 / 5.20 (75.4%)</button>
-          <button type="button" class="nudge-btn-free" data-f-back="5.50" data-f-lay="5.70">5.50 / 5.70 (77.4%)</button>
-          <button type="button" class="nudge-btn-free" data-f-back="6.50" data-f-lay="6.75">6.50 / 6.75 (79.9%)</button>
-        </div>
-
-        <!-- Primary Hedge Output Box for Bet 2 -->
-        <div class="hedge-action-panel hedge-panel-electric">
-          <div class="hedge-action-main">
-            <div class="hedge-action-label" id="f-action-title">PERFECT FREE BET HEDGE LAY STAKE:</div>
-            <div class="hedge-stake-row">
-              <span class="hedge-stake-number electric-number" id="f-hedge-stake">£7.72</span>
-              <button type="button" class="btn-copy btn-copy-electric" id="copy-f-stake" data-copy-target="f-hedge-stake">
-                Copy Stake
-              </button>
-            </div>
-            <div class="hedge-action-instruction" id="f-instruction-line">
-              Use <strong>£10.00 Free Bet</strong> at Bookmaker (odds <code>5.00</code>) &amp; place <strong>£7.72 Lay</strong> at Exchange (odds <code>5.20</code>).
-            </div>
-          </div>
-
-          <div class="hedge-metrics-side">
-            <div class="side-stat">
-              <span class="side-stat-label" id="f-liability-label">Exchange Liability Needed</span>
-              <span class="side-stat-val" id="f-liability">£32.43</span>
-            </div>
-            <div class="side-stat">
-              <span class="side-stat-label">Guaranteed Free Bet Profit</span>
-              <span class="side-stat-val profit-tone" id="f-net-profit">+£7.57 (75.7%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Smart Advisor for Bet 2 -->
-        <div class="smart-advisor-bar advisor-electric" id="f-advisor">
-          <span class="advisor-dot"></span>
-          <p id="f-advisor-text">
-            <strong>70%+ Profit Locked:</strong> These odds extract <strong>75.7%</strong> of your Free Bet as guaranteed cash (+£7.57). After your 20p qualifying loss, you net <strong>+£7.37 guaranteed</strong>!
-          </p>
-        </div>
-
-        <!-- Outcome Verification Table for Bet 2 -->
-        <div class="proof-table-wrap">
-          <div class="proof-table-title">MATHEMATICAL HEDGE PROOF (GUARANTEED PROFIT EITHER WAY)</div>
-          <table class="proof-table">
-            <thead>
-              <tr>
-                <th>Scenario</th>
-                <th>Bookmaker (Free Bet)</th>
-                <th id="f-table-hedge-col">Exchange Account</th>
-                <th>Guaranteed Profit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="outcome-dot dot-blue"></span> <strong>If Free Bet Wins</strong> (Bookie Wins)</td>
-                <td class="pos-val" id="f-win-bookie">+£40.00</td>
-                <td class="neg-val" id="f-win-exchange">-£32.43</td>
-                <td class="net-cell profit-tone" id="f-win-net">+£7.57</td>
-              </tr>
-              <tr>
-                <td><span class="outcome-dot dot-cyan"></span> <strong>If Free Bet Loses</strong> (Hedge Wins)</td>
-                <td class="neutral-val" id="f-lose-bookie">£0.00 (Free Token)</td>
-                <td class="pos-val" id="f-lose-exchange">+£7.57</td>
-                <td class="net-cell profit-tone" id="f-lose-net">+£7.57</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-    </section>
-
-    <!-- ==================== INTERACTIVE ODDS SIMULATOR: WHY HIGH ODDS = 70%+ PROFIT ==================== -->
-    <section class="simulator-section" aria-label="Free Bet Odds vs Profit Simulator">
-      <div class="section-header-row">
+    <!-- ==================== SECTION 1: TOP 10 DAILY HEDGE CARDS ==================== -->
+    <section class="top10-section" aria-labelledby="top10-heading">
+      <div class="section-title-bar">
         <div>
-          <span class="section-eyebrow">LIVE ODDS MATRIX // WHY ODDS SELECTION MATTERS</span>
-          <h2>How Free Bet Odds Control Your Guaranteed Profit %</h2>
+          <span class="section-eyebrow">LIVE ORDERBOOK DISLOCATION SCANNER // TOP 10 DAILY RANKING</span>
+          <h2 id="top10-heading">Top 10 Polymarket Bets to Hedge Today</h2>
         </div>
-        <p class="section-subnote">
-          Calculated live for your current <strong id="sim-free-stake-label">£10.00</strong> Free Bet &amp; <strong id="sim-comm-label">2.0%</strong> commission. Notice how odds below <code>3.50</code> fail to hit 70%, while <code>4.50 &ndash; 6.50</code> effortlessly lock in <strong>73%&ndash;80% profit</strong>:
-        </p>
+        <div class="section-legend">
+          <span class="legend-item"><span class="dot-platinum"></span> Leg 1 Primary Contract</span>
+          <span class="legend-item"><span class="dot-slate"></span> Leg 2 Counter-Hedge Lock</span>
+          <span class="legend-item"><span class="dot-arb"></span> &Sigma; Combined Unit Cost &lt; $1.00</span>
+        </div>
       </div>
 
-      <div class="matrix-table-container">
-        <table class="matrix-table">
+      <!-- Cards Grid populated by app.js -->
+      <div class="top10-cards-grid" id="top10-cards-grid">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 2: INSTITUTIONAL EXECUTION MATRIX TABLE ==================== -->
+    <section class="blotter-section" aria-labelledby="blotter-heading">
+      <div class="section-title-bar">
+        <div>
+          <span class="section-eyebrow">QUANT EXECUTION BLOTTER // SIDE-BY-SIDE CAPITAL ALLOCATION</span>
+          <h2 id="blotter-heading">Daily Top 10 Hedge Execution Matrix</h2>
+        </div>
+        <div class="blotter-meta">
+          <span>Click <strong>Simulate</strong> on any row to customize prices &amp; sizing in the Quant Calculator below</span>
+        </div>
+      </div>
+
+      <div class="table-responsive-wrapper">
+        <table class="quant-blotter-table">
           <thead>
             <tr>
-              <th>Free Bet Back Odds</th>
-              <th id="matrix-hedge-col-title">Typical Tight Lay Odds</th>
-              <th>Hedge Stake to Place</th>
-              <th>Hedge Liability / Outlay</th>
-              <th>Guaranteed Cash Profit</th>
-              <th>% of Free Bet Retained</th>
-              <th>Net Profit (After Bet 1)</th>
-              <th>Verdict</th>
+              <th>Rank</th>
+              <th>Live Polymarket Contract</th>
+              <th>Quant Hedge Strategy</th>
+              <th>Live YES / NO</th>
+              <th>&Sigma; Unit Cost</th>
+              <th>Leg 1 Allocation (YES)</th>
+              <th>Leg 2 Allocation (NO Hedge)</th>
+              <th>If YES Wins (Net)</th>
+              <th>If NO Wins (Net)</th>
+              <th>Sharpe / Kelly</th>
+              <th>Execute</th>
             </tr>
           </thead>
-          <tbody id="odds-matrix-body">
-            <!-- Dynamically populated by app.js -->
+          <tbody id="blotter-table-body">
+            <!-- Populated dynamically -->
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- ==================== COMPLETE STEP-BY-STEP INSTRUCTIONS & ODDS STRATEGY PLAYBOOK ==================== -->
-    <section class="playbook-section" id="strategy-playbook" aria-label="User Instructions and Strategy Guide">
-      <div class="section-header-row">
+    <!-- ==================== SECTION 3: INTERACTIVE 2-LEG POLYMARKET HEDGE CALCULATOR ==================== -->
+    <section class="calculator-section" id="quant-calculator-section" aria-labelledby="calc-heading">
+      <div class="section-title-bar">
         <div>
-          <span class="section-eyebrow">COMPLETE USER INSTRUCTIONS // STEP-BY-STEP BLUEPRINT</span>
-          <h2>How to Lose ~20p on Bet 1 &amp; Guarantee ~70%+ Profit on Bet 2</h2>
+          <span class="section-eyebrow">INTERACTIVE POSITION SIZER // DUTCH ARBITRAGE &amp; DELTA-NEUTRAL COLLAR</span>
+          <h2 id="calc-heading">Polymarket 2-Leg Quant Hedge &amp; Arbitrage Calculator</h2>
         </div>
-        <p class="section-subnote">
-          Follow this exact 2-phase formula every time a bookmaker offers a <em>"Bet £10, Get £10 / £30 Free Bet"</em> promotion.
-        </p>
-      </div>
-
-      <div class="playbook-cards-grid">
-        <!-- PHASE 1 GUIDE -->
-        <div class="playbook-card">
-          <div class="playbook-card-top">
-            <span class="playbook-step-num">STEP 01</span>
-            <h3>The Qualifying Bet (Lose Only ~20p)</h3>
-          </div>
-          <p class="playbook-lead">
-            Your first bet uses your own cash just to unlock the bookmaker's Free Bet promotion. You aren't trying to gamble here &mdash; you want to break almost completely even (losing only ~15p to 25p in market spread).
-          </p>
-
-          <div class="Checklist-block">
-            <h4>🔍 Exact Odds to Look For on Bet 1:</h4>
-            <ul class="strategy-list">
-              <li>
-                <strong>1. Look for LOW Odds (<code>1.50</code> to <code>2.20</code>):</strong>
-                Check the promo terms for the minimum odds allowed (usually <code>1.50</code> [1/2] or <code>2.00</code> [Evens]). Pick a team or selection right near that minimum. Why? Because low odds keep your exchange liability small (only ~£5 to £12 needed) and minimise commission losses.
-              </li>
-              <li>
-                <strong>2. Keep Back &amp; Lay Odds Within <code>0.02</code> to <code>0.04</code>:</strong>
-                For example, if the Bookmaker offers <strong>Back Odds of <code>2.00</code></strong>, look for <strong>Exchange Lay Odds of <code>2.00</code>, <code>2.02</code>, or <code>2.04</code></strong> (or in 2-Bookie mode, two opposite outcomes like Over/Under both at <code>1.98</code>).
-              </li>
-              <li>
-                <strong>3. Target a 97.5%+ Match Rating:</strong>
-                At <code>2.00</code> Back / <code>2.02</code> Lay on a £10 stake, your guaranteed loss is just <strong>15p to 20p</strong>. Think of that 20p as buying a £10 or £30 Free Bet token!
-              </li>
-            </ul>
-          </div>
-
-          <div class="dos-donts-row">
-            <div class="do-pill">✔ DO: Bet on high-liquidity football/tennis matches where Back &amp; Lay odds are razor-tight.</div>
-            <div class="dont-pill">✖ DON'T: Use high odds (like 6.00) for your Qualifying Bet &mdash; spreads are wider and you'll lose £1+ unnecessarily.</div>
-          </div>
-        </div>
-
-        <!-- PHASE 2 GUIDE -->
-        <div class="playbook-card playbook-card-electric">
-          <div class="playbook-card-top">
-            <span class="playbook-step-num step-num-electric">STEP 02</span>
-            <h3>The Free Bet Hedge (Guarantee ~70%&ndash;80% Profit)</h3>
-          </div>
-          <p class="playbook-lead">
-            Once Bet 1 settles, the bookmaker gives you a <strong>Free Bet (SNR &mdash; Stake Not Returned)</strong>. Because the bookmaker keeps the free bet stake and only pays the winnings, <strong>higher odds give you a much higher guaranteed profit!</strong>
-          </p>
-
-          <div class="Checklist-block">
-            <h4>🚀 Exact Odds to Look For on Bet 2:</h4>
-            <ul class="strategy-list">
-              <li>
-                <strong>1. Look for HIGH Odds (<code>4.50</code> to <code>7.00</code>):</strong>
-                Why? On a £10 Free Bet at <code>2.00</code> odds, your bookie winnings are only £10, leaving you with just ~£4.80 (48%) after hedging. At <strong><code>5.00</code> odds</strong>, your bookie winnings are <strong>£40.00</strong> &mdash; meaning the unreturned £10 stake is only a tiny fraction of the payout, locking in <strong>~£7.55 (75.5% guaranteed profit)</strong>!
-              </li>
-              <li>
-                <strong>2. Keep the High-Odds Spread Tight (Within <code>0.15</code> to <code>0.30</code>):</strong>
-                Ideal examples: Back <code>4.50</code> / Lay <code>4.65</code> (<strong>74.0% profit</strong>), Back <code>5.00</code> / Lay <code>5.20</code> (<strong>75.4% profit</strong>), or Back <code>6.00</code> / Lay <code>6.25</code> (<strong>78.4% profit</strong>).
-              </li>
-              <li>
-                <strong>3. If Using 2 Bookmakers (No Exchange):</strong>
-                Place your Free Bet on an underdog at Bookie 1 (e.g., <strong>Odds <code>4.20</code> to <code>5.50</code></strong>) and hedge with cash on the heavy favorite / Double Chance at Bookie 2 (e.g., <strong>Odds <code>1.25</code> to <code>1.36</code></strong>).
-              </li>
-            </ul>
-          </div>
-
-          <div class="dos-donts-row">
-            <div class="do-pill">✔ DO: Check your Exchange account balance can cover the Liability (usually 3x&ndash;4x the Free Bet stake at 5.0 odds).</div>
-            <div class="dont-pill">✖ DON'T: Place your Free Bet at low odds like 1.80 or 2.00 &mdash; you'll throw away ~25% of your guaranteed cash!</div>
-          </div>
+        <div class="calc-active-contract-pill" id="calc-loaded-title">
+          Loaded Contract: Custom / Select any Top 10 Bet Above
         </div>
       </div>
 
-      <!-- 4 GOLDEN RULES FOOTER STRIP -->
-      <div class="golden-rules-grid">
-        <div class="rule-tile">
-          <div class="rule-num">RULE 01</div>
-          <h4>Understand "Lay" vs "Back"</h4>
-          <p>
-            <strong>Back</strong> = betting FOR an outcome to happen (at the Bookmaker).<br />
-            <strong>Lay</strong> = betting AGAINST that exact same outcome (at Betfair, Smarkets, or Matchbook) so every possible match result is 100% covered.
-          </p>
+      <div class="calculator-grid">
+        <!-- Left: Inputs -->
+        <div class="calc-panel calc-inputs-panel">
+          <div class="panel-header-strip">
+            <h3>1. Configure Contract &amp; Orderbook Prices</h3>
+            <span class="panel-tag">PRICES IN USD ($0.01 &ndash; $0.99)</span>
+          </div>
+
+          <div class="calc-form-grid">
+            <div class="calc-field">
+              <label for="calc-bankroll">
+                <span>Total Capital to Deploy ($)</span>
+                <span class="field-hint">Combined Leg 1 + Leg 2 budget</span>
+              </label>
+              <div class="field-input-wrap">
+                <span class="unit-prefix">$</span>
+                <input type="number" id="calc-bankroll" value="1000" min="10" step="50" />
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="calc-mode">
+                <span>Quant Hedge Structure</span>
+                <span class="field-hint">Select payoff profile</span>
+              </label>
+              <select id="calc-mode" class="grey-select full-width-select">
+                <option value="equal" selected>Equal-Profit Dutch Lock (Identical Profit Either Way)</option>
+                <option value="freeroll_yes">Zero-Downside NO Floor (100% Profit Stacked on YES)</option>
+                <option value="freeroll_no">Zero-Downside YES Floor (100% Profit Stacked on NO)</option>
+              </select>
+            </div>
+
+            <div class="calc-field">
+              <label for="calc-leg1-price">
+                <span>Leg 1 Entry Price (YES / Bracket A)</span>
+                <span class="field-hint">Polymarket share price ($0.01&ndash;$0.99)</span>
+              </label>
+              <div class="field-input-wrap">
+                <span class="unit-prefix">$</span>
+                <input type="number" id="calc-leg1-price" value="0.480" min="0.01" max="0.99" step="0.005" />
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="calc-leg2-price">
+                <span>Leg 2 Hedge Price (NO / Counter Bracket)</span>
+                <span class="field-hint">Limit bid or sibling NO price</span>
+              </label>
+              <div class="field-input-wrap">
+                <span class="unit-prefix">$</span>
+                <input type="number" id="calc-leg2-price" value="0.482" min="0.01" max="0.99" step="0.005" />
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="calc-fee-bps">
+                <span>Exchange / Maker Fee (bps)</span>
+                <span class="field-hint">Polymarket CLOB maker fee = 0 bps</span>
+              </label>
+              <div class="field-input-wrap">
+                <span class="unit-prefix">BPS</span>
+                <input type="number" id="calc-fee-bps" value="0" min="0" max="500" step="5" />
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label>
+                <span>Quick Dislocation Presets</span>
+                <span class="field-hint">Test typical Polymarket spreads</span>
+              </label>
+              <div class="preset-mini-row">
+                <button type="button" class="mini-preset-btn" data-p1="0.480" data-p2="0.482">$0.480 / $0.482 (+3.95%)</button>
+                <button type="button" class="mini-preset-btn" data-p1="0.340" data-p2="0.615">$0.340 / $0.615 (+4.71%)</button>
+                <button type="button" class="mini-preset-btn" data-p1="0.620" data-p2="0.345">$0.620 / $0.345 (+3.63%)</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="rule-tile">
-          <div class="rule-num">RULE 02</div>
-          <h4>Why 4.50&ndash;6.50 is the Sweet Spot</h4>
-          <p>
-            Odds above <code>7.50</code> can push profit toward 80%, but require a large exchange balance for liability. Odds between <code>4.50</code> and <code>6.00</code> easily beat the <strong>70%&ndash;77% target</strong> while keeping liability manageable.
-          </p>
+
+        <!-- Right: Live Execution Ticket & Payoff Matrix -->
+        <div class="calc-panel calc-output-panel">
+          <div class="panel-header-strip">
+            <h3>2. Exact Quant Execution Ticket</h3>
+            <span class="panel-tag tag-highlight" id="calc-arb-status-badge">ARBITRAGE EDGE DETECTED (+3.95%)</span>
+          </div>
+
+          <div class="ticket-legs-grid">
+            <div class="ticket-leg-card">
+              <div class="leg-card-top">
+                <span class="leg-title">LEG 01 // PRIMARY ENTRY (YES)</span>
+                <span class="leg-price-chip" id="out-leg1-price-chip">@ $0.480</span>
+              </div>
+              <div class="leg-dollar-amount" id="out-leg1-stake">$498.96</div>
+              <div class="leg-shares-sub" id="out-leg1-shares">Buy 1,039.50 YES Shares ($1.00 par)</div>
+            </div>
+
+            <div class="ticket-leg-card">
+              <div class="leg-card-top">
+                <span class="leg-title">LEG 02 // COUNTER-HEDGE (NO)</span>
+                <span class="leg-price-chip" id="out-leg2-price-chip">@ $0.482</span>
+              </div>
+              <div class="leg-dollar-amount" id="out-leg2-stake">$501.04</div>
+              <div class="leg-shares-sub" id="out-leg2-shares">Buy 1,039.50 NO Shares ($1.00 par)</div>
+            </div>
+          </div>
+
+          <div class="calc-metrics-strip">
+            <div class="c-metric">
+              <span class="cm-label">&Sigma; Combined Unit Cost</span>
+              <span class="cm-val" id="out-unit-cost">$0.9620</span>
+            </div>
+            <div class="c-metric">
+              <span class="cm-label">Arbitrage Spread</span>
+              <span class="cm-val" id="out-spread-cents">3.80&cent; / share</span>
+            </div>
+            <div class="c-metric">
+              <span class="cm-label">Guaranteed Min Profit</span>
+              <span class="cm-val text-platinum" id="out-min-profit">+$39.50</span>
+            </div>
+            <div class="c-metric">
+              <span class="cm-label">Locked ROI %</span>
+              <span class="cm-val text-platinum" id="out-roi-pct">+3.95%</span>
+            </div>
+          </div>
+
+          <table class="payoff-verification-table">
+            <thead>
+              <tr>
+                <th>Resolution Scenario</th>
+                <th>Winning Shares</th>
+                <th>Gross Settlement ($1/sh)</th>
+                <th>Total Cost Deployed</th>
+                <th>Net Locked Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Outcome A: YES Resolves True</strong></td>
+                <td id="out-yes-shares">1,039.50 sh</td>
+                <td id="out-yes-gross">$1,039.50</td>
+                <td id="out-yes-cost">-$1,000.00</td>
+                <td class="profit-cell" id="out-yes-net">+$39.50 (+3.95%)</td>
+              </tr>
+              <tr>
+                <td><strong>Outcome B: NO Resolves True</strong></td>
+                <td id="out-no-shares">1,039.50 sh</td>
+                <td id="out-no-gross">$1,039.50</td>
+                <td id="out-no-cost">-$1,000.00</td>
+                <td class="profit-cell" id="out-no-net">+$39.50 (+3.95%)</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="rule-tile">
-          <div class="rule-num">RULE 03</div>
-          <h4>Football Draws &amp; Underdogs Shine</h4>
-          <p>
-            Premier League / Champions League <strong>Match Result Draws</strong> or away underdogs often sit right at <code>4.20</code>&ndash;<code>5.50</code> with ultra-tight exchange spreads (e.g. <code>4.80</code> Back / <code>4.90</code> Lay).
-          </p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 4: QUANT FINANCE METHODOLOGY PLAYBOOK ==================== -->
+    <section class="methodology-section" aria-labelledby="methodology-heading">
+      <div class="section-title-bar">
+        <div>
+          <span class="section-eyebrow">QUANTITATIVE PREDICTION MARKET ARCHITECTURE // INSTITUTIONAL PLAYBOOK</span>
+          <h2 id="methodology-heading">How the Quant Hedging Engine Extracts Daily Profit from Polymarket</h2>
         </div>
-        <div class="rule-tile">
-          <div class="rule-num">RULE 04</div>
-          <h4>Never Hedge on the Same Bookie</h4>
+      </div>
+
+      <div class="methodology-grid">
+        <article class="method-card">
+          <div class="method-num">STRATEGY 01 // DUTCH_ARB</div>
+          <h3>Multi-Bracket Sum-of-NO Arbitrage</h3>
           <p>
-            Always place your Qualifying/Free Bet at Bookmaker A and your Hedge Bet at a Betting Exchange (or Bookmaker B). Never bet both sides of a market on the same bookmaker account.
+            In multi-outcome Polymarket events (such as Federal Reserve rate decisions, election margins, or price brackets), mutually exclusive outcomes must sum to <code>100%</code> at expiration. When retail inflows push the sum of implied probabilities above <code>103%+</code>, buying weighted <code>NO</code> shares or pairing the primary bracket against complementary field brackets locks a combined unit cost below <code>$1.00</code>.
           </p>
-        </div>
+          <div class="formula-box">
+            <code>&Sigma; Cost = P(Leg 1) + P(Leg 2) &lt; $1.00 &rArr; Locked Yield = (1 / &Sigma; Cost) - 1</code>
+          </div>
+        </article>
+
+        <article class="method-card">
+          <div class="method-num">STRATEGY 02 // SPREAD_STRADDLE</div>
+          <h3>Delta-Neutral Maker Bid-Ask Straddle</h3>
+          <p>
+            Polymarket charges <strong>0 bps maker fees</strong> on resting limit orders in the Central Limit Order Book (CLOB). On high-volume daily contracts trading between <code>35&cent;</code> and <code>65&cent;</code> with a <code>2.5&cent;&ndash;5.0&cent;</code> bid-ask spread, posting passive limit bids on both <code>YES</code> and <code>NO</code> captures both sides of the book for <code>$0.95&ndash;$0.97</code> combined cost per <code>$1.00</code> payout.
+          </p>
+          <div class="formula-box">
+            <code>Bid(YES) + Bid(NO) = $0.962 &rArr; Guaranteed +$0.038 (+3.95%) at Settlement</code>
+          </div>
+        </article>
+
+        <article class="method-card">
+          <div class="method-num">STRATEGY 03 // CONVEX_COLLAR</div>
+          <h3>Asymmetric Convexity + NO Anchor Collar</h3>
+          <p>
+            When an underpriced catalyst contract trades below <code>35&cent;</code> with positive orderbook skew, unhedged buyers face binary decay. By sizing an anchor <code>NO</code> hedge so its settlement payout covers <code>100%</code> of total deployed capital (Zero-Loss Floor mode), the trader holds free upside convexity on <code>YES</code> without principal risk.
+          </p>
+          <div class="formula-box">
+            <code>Shares(NO) = Total Capital &divide; $1.00 &rArr; Downside = $0.00 | Upside = Pure Alpha</code>
+          </div>
+        </article>
+
+        <article class="method-card">
+          <div class="method-num">STRATEGY 04 // THETA_PAIR</div>
+          <h3>High-Probability Yield + Tail Protection</h3>
+          <p>
+            Late-stage contracts trading at <code>65&cent;&ndash;90&cent;</code> offer strong convergence yield (theta decay toward <code>$1.00</code>), but carry tail-event wipeout risk. Pairing the high-probability favorite with deeply discounted counter-bracket <code>NO</code> shares caps variance and elevates the portfolio Sharpe ratio above <code>2.8+</code>.
+          </p>
+          <div class="formula-box">
+            <code>Stake(Leg 1) = Bankroll &times; [P2 / (P1 + P2)] &bull; Stake(Leg 2) = Bankroll &times; [P1 / (P1 + P2)]</code>
+          </div>
+        </article>
       </div>
     </section>
   </main>
 
+  <!-- ==================== INSTITUTIONAL FOOTER ==================== -->
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-left">
-        <span class="logo-code">KP//HEDGE</span>
-        <span>Black &amp; Electric Blue Matched Betting &amp; Free Bet Perfect Hedge Terminal</span>
+        <span class="brand-code">KP//POLYHEDGE</span>
+        <span>KPOINT Polymarket Quant Hedge Terminal &bull; Live Gamma Orderbook Scanner</span>
+      </div>
+      <div class="footer-center">
+        <strong>KPOINT made this one. Not financial advice the risk is yours and yours only.</strong>
       </div>
       <div class="footer-right">
-        <span>Guaranteed Math &bull; Qualifying Bet (~20p Loss) + Free Bet SNR (70%&ndash;80% Profit)</span>
+        <span id="footer-sync-time">Live Feed Active</span>
       </div>
     </div>
   </footer>

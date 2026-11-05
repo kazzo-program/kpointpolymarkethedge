@@ -1,22 +1,37 @@
-# KPOINT HEDGE // Free Bet & Qualifying Bet Perfect Hedge Terminal
+# KPOINT POLYMARKET HEDGE // Top 10 Daily Quant Finance Hedging Terminal
 
-> **Black & Electric Blue Interface // 2-Bet Matched Hedging Calculator // Lose ~20p on Bet 1 (Qualifying Bet) // Guarantee 70%–80% Profit on Bet 2 (Free Bet SNR) // Complete Odds Strategy Playbook**
+> **Grey & Pitch-Black Institutional Interface // Live Polymarket Gamma API Orderbook Scanner // Top 10 Daily Bets to Hedge & Extract Arbitrage / Delta-Neutral Alpha // 2-Leg Quant Position Sizer**
 
 ---
 
-## ⚡ Core Features
+## ⚡ Core Capabilities
 
-1. **Dual-Bet Matched Hedging System (Bet 1 + Bet 2)**:
-   - **Bet 1 — Qualifying Bet Calculator**: Calculates the exact Hedge Stake so your qualifying cash bet loses only around **20p (`-£0.20`)** regardless of the match outcome, unlocking your bookmaker Free Bet.
-   - **Bet 2 — Free Bet Hedge Calculator (SNR & SR)**: Calculates the exact Hedge Stake for your Free Bet (Stake Not Returned) so you lock in **70%–80% guaranteed profit** no matter who wins.
-   - **Master Combined Campaign Dashboard**: Live summary showing Step 1 Qualifying Cost (`-£0.20`) + Step 2 Free Bet Profit (`+£7.57`) = **Total Guaranteed Net Cash Profit (`+£7.37` / `73.7%` net)**.
+1. **Live Polymarket Gamma API Data Pipeline (Zero API Keys Required)**:
+   - Pulls high-volume active prediction markets directly from `https://gamma-api.polymarket.com/events` sorted by 24-hour trading volume.
+   - Evaluates multi-bracket dislocations, orderbook bid-ask spreads, liquidity depth, and implied probability skews in real time.
 
-2. **Supports Both Hedging Methods**:
-   - **Exchange Lay Mode (Back vs. Lay)**: Bookmaker Back bet vs. Betting Exchange Lay bet (Betfair, Smarkets, Matchbook) with customizable exchange commission %.
-   - **2-Bookmaker Hedge Mode (Bet A vs. Bet B)**: Hedge across two regular sportsbooks on opposite outcomes (no exchange required).
+2. **Quantitative Finance Hedging Engine (Top 10 Daily Ranking)**:
+   - Ranks the **Top 10 Bets of the Day** across 4 institutional prediction-market hedging strategies:
+     - **`DUTCH_ARB` — Multi-Bracket Sum-of-NO Arbitrage**: Exploits multi-outcome overround dislocations where pairing the primary bracket against complementary field `NO` shares yields a combined unit cost $\Sigma \text{Cost} < \$1.00$.
+     - **`SPREAD_STRADDLE` — Delta-Neutral Maker Bid-Ask Straddle**: Captures resting maker bid spreads on 50/50 high-turnover contracts with 0 bps maker fees on the Polymarket CLOB.
+     - **`CONVEX_COLLAR` — Asymmetric Convexity + NO Anchor Collar**: Protects 100% of principal via an anchor `NO` position while retaining free upside convexity on underpriced `YES` catalysts.
+     - **`THETA_PAIR` — High-Probability Yield + Tail Protection**: Pairs high-probability convergence contracts with cheap tail-hedge `NO` shares to eliminate binary wipeout risk.
 
-3. **Built-in User Instructions & Live Smart Odds Advisor**:
-   - Explains **what odds to look for** on both bets:
-     - **Bet 1 (Qualifying Bet)**: Look for **LOW odds (`1.50` to `2.20`)** with tight Lay/Hedge odds (`0.02` spread, e.g., `2.00 / 2.02`) to keep qualifying loss around **20p** and minimise liability.
-     - **Bet 2 (Free Bet SNR)**: Look for **HIGH odds (`4.50` to `7.00`)** with tight Lay/Hedge odds (e.g., `5.00 / 5.20`) to guarantee **70%–80% cash retention**.
-   - Includes a live **Free Bet Odds vs. Profit Matrix** showing how odds selection directly controls your guaranteed profit percentage.
+3. **3 Dynamic Hedge Sizing Modes & Interactive 2-Leg Calculator**:
+   - **Equal-Profit Arbitrage Lock**: Sizes Leg 1 (`YES`) and Leg 2 (`NO`) so you lock in the exact same net dollar profit regardless of which outcome resolves.
+   - **Zero-Loss NO Floor (Free-Roll YES)**: Locks `$0.00` downside if `NO` resolves and stacks 100% of the arbitrage surplus onto `YES`.
+   - **Zero-Loss YES Floor (Free-Roll NO)**: Locks `$0.00` downside if `YES` resolves and stacks 100% of the arbitrage surplus onto `NO`.
+
+---
+
+## 🚀 Run Locally
+
+```bash
+python server.py
+```
+
+Then open **`http://localhost:8080`** in your browser.
+
+---
+
+*KPOINT made this one. Not financial advice the risk is yours and yours only.*
